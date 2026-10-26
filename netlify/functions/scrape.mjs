@@ -35,7 +35,7 @@ function mapRider(o, activePeriod){
   tcList.forEach(function(tc){
     var pname = TC2NAME[String(tc)]; if(!pname) return;
     var isCur = (String(tc)===String(curTC));
-    periods.push({ name:pname, onlineMin: Math.round((Number(om[String(tc)]||0)/60), orders: isCur ? num(o.timeFinishOrder) : null, maxOrders: num(o.maxOrder), delivery: isCur ? num(o.deliveryOrder) : (num(dm[String(tc)])||0), ended: (Number(tc) < Number(curTC)) });
+    periods.push({ name:pname, onlineMin: Math.round((Number(om[String(tc)]||0)/60)), orders: isCur ? num(o.timeFinishOrder) : null, maxOrders: num(o.maxOrder), delivery: isCur ? num(o.deliveryOrder) : (num(dm[String(tc)])||0), ended: (Number(tc) < Number(curTC)) });
   });
   if(!periods.length){
     periods = schedule.map(function(p){ return { name:p, onlineMin: Math.round((Number(o.timeOnlineTime)||0)/60), orders: num(o.timeFinishOrder), maxOrders: num(o.maxOrder), delivery: num(o.deliveryOrder), ended:(p!==activePeriod) }; });
