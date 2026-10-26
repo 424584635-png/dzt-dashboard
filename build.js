@@ -285,7 +285,8 @@ function build(){
     var r=x.r;
     var onBadge = r.onlineStatus==='在线' ? '<span class="tag tag-on">● 在线</span>' : '<span class="tag tag-off">○ 离线</span>';
     var schedBadge = x.sched ? '<span class="tag tag-yes">排班</span>' : '<span class="tag tag-no">未排班</span>';
-    return '<tr><td>'+esc(r.ydl)+'</td><td>'+esc(r.xiaodui)+'</td><td>'+esc(r.name)+'</td><td>'+onBadge+'</td><td>'+schedBadge+'</td>'+
+    return '<tr data-ydl="'+esc(r.ydl)+'" data-team="'+esc(r.xiaodui)+'" data-name="'+esc(r.name)+'" data-met="'+(x.ok?1:0)+'" data-online="'+esc(r.onlineStatus)+'" data-sched="'+(x.sched?'是':'否')+'" data-periods="'+esc((r.schedule||[]).join('、'))+'" data-cap="'+esc(r.isCaptain||'否')+'" data-new="'+esc(r.isNew||'否')+'" data-hours="'+x.hours.toFixed(1)+'" data-orders="'+(r.orders||0)+'" data-sprint="'+((r.ydl==='蜂跑'&&(r.orders||0)>=40)?1:0)+'" data-delivery="'+(r.deliveryOrders||0)+'" data-gap="'+Math.max(0,(r.orderTarget||20)-(r.orders||0))+'">'+
+      '<td>'+esc(r.ydl)+'</td><td>'+esc(r.xiaodui)+'</td><td>'+esc(r.name)+'</td><td>'+onBadge+'</td><td>'+schedBadge+'</td>'+
       '<td>'+esc((r.schedule||[]).join('、'))+'</td><td>'+x.hours.toFixed(1)+'h</td><td>'+(r.orders||0)+'/'+x.target+'</td><td>-</td><td>0</td>'+
       '<td class="r">'+(x.ok?'达标':'未达标')+'</td><td><span class="tag tag-o">'+x.target+'单</span></td>'+
       '<td><span class="r">'+(x.ok?'已完成':(remainDay+(((r.dayOnlineMin||0)+remainDay)<480?'分钟(不足)':'分钟')))+'</span></td></tr>';
@@ -309,6 +310,41 @@ function build(){
   i2 = setTbody(i2, '共 '+byTeamList.length+' 个小队', dimI2(byTeamList, true));
   i2 = setTbody(i2, 'id="sec2"', dimI2(byLineList, false));
   i2 = skin(i2);
+  if(!i2.includes('dztSortT')){
+    i2 = i2.replace('</body>','<script>(function(){'+
+      'var KEYS=["data-ydl","data-team","data-name","data-online","data-sched","data-periods","data-hours","data-orders","data-sprint","data-delivery","data-met","data-gap","data-delivery"];'+
+      'var cur={col:-1,dir:"asc"};'+
+      'function rows(){var tb=document.getElementById("tb");return tb?[].slice.call(tb.rows):[];}'+
+      'function cmp(a,b,k){var av=a.getAttribute(k)||"",bv=b.getAttribute(k)||"";var na=parseFloat(av),nb=parseFloat(bv);if(!isNaN(na)&&!isNaN(nb))return na-nb;return av.localeCompare(bv,"zh");}'+
+      'window.sortT=function(ci){'+
+        'var tb=document.getElementById("tb");if(!tb)return;'+
+        'var k=KEYS[ci]||"data-name";'+
+        'var dir=(cur.col===ci&&cur.dir==="asc")?"desc":"asc";cur={col:ci,dir:dir};'+
+        'var arr=rows().slice().sort(function(a,b){var c=cmp(a,b,k);return dir==="asc"?c:-c;});'+
+        'arr.forEach(function(r){tb.appendChild(r);});'+
+        'var ths=document.querySelectorAll("#rt thead th .arr");for(var i=0;i<ths.length;i++)ths[i].textContent="";'+
+        'var th=document.querySelectorAll("#rt thead th")[ci];if(th){var a=th.querySelector(".arr");if(a)a.textContent=dir==="asc"?" ▲":" ▼";}'+
+      '};'+
+      'window.applyFilter=function(){'+
+        'var g=function(id){var e=document.getElementById(id);return e?e.value:"";};'+
+        'var yd=g("fy"),tm=g("ft"),st=g("fs"),nm=(g("fn")||"").toLowerCase(),ol=g("fol"),pb=g("fpb"),pd=g("fpd"),cap=g("fcap"),nw=g("fnew");'+
+        'var rs=rows(),shown=0;'+
+        'for(var i=0;i<rs.length;i++){var r=rs[i];var ok=true;'+
+          'if(yd&&r.getAttribute("data-ydl")!==yd)ok=false;'+
+          'if(tm&&r.getAttribute("data-team")!==tm)ok=false;'+
+          'if(st==="met"&&r.getAttribute("data-met")!=="1")ok=false;'+
+          'if(st==="not"&&r.getAttribute("data-met")==="1")ok=false;'+
+          'if(nm&&(r.getAttribute("data-name")||"").toLowerCase().indexOf(nm)<0)ok=false;'+
+          'if(ol&&r.getAttribute("data-online")!==ol)ok=false;'+
+          'if(pb&&r.getAttribute("data-sched")!==pb)ok=false;'+
+          'if(pd&&(r.getAttribute("data-periods")||"").indexOf(pd)<0)ok=false;'+
+          'if(cap&&r.getAttribute("data-cap")!==cap)ok=false;'+
+          'if(nw&&r.getAttribute("data-new")!==nw)ok=false;'+
+          'r.style.display=ok?"":"none";if(ok)shown++;}'+
+        'var c=document.getElementById("cntInfo");if(c)c.textContent="共 "+shown+" 条记录";'+
+      '};'+
+      '})();<\/script></body>');
+  }
   fs.writeFileSync(path.join(OUT,'id2.html'), i2);
 
   // ================= index 播报首页 =================
