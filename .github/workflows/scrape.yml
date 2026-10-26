@@ -22,6 +22,8 @@ jobs:
         with:
           node-version: '20'
       - name: 抓取轩辕数据
+        id: scrape
+        continue-on-error: true
         run: node scrape.js
         env:
           CONFIG_COOKIE: ${{ vars.CONFIG_COOKIE }}
@@ -34,6 +36,7 @@ jobs:
       - id: deploy
         uses: actions/deploy-pages@v4
       - name: 推送钉钉
+        if: steps.scrape.outcome == 'success'
         run: node dingtalk-notify.js
         env:
           DINGTALK_WEBHOOK: ${{ vars.DINGTALK_WEBHOOK }}
