@@ -1,26 +1,43 @@
-name: 定时爬取轩辕数据
+name: 定时爬取并部署
 on:
   schedule:
     - cron: '*/5 * * * *'
   workflow_dispatch:
+permissions:
+  contents: write
+  pages: write
+  id-token: write
+concurrency:
+  group: pages
+  cancel-in-progress: false
 jobs:
-  scrape:
+  refresh:
+    environment:
+      name: github-pages
+      url: ${{ steps.deploy.outputs.page_url }}
     runs-on: ubuntu-latest
-    permissions:
-      contents: write
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
           node-version: '20'
-      - name: 爬取并写回 public/data.json
+      - name: 爬取轩辕数据
         run: node scrape.js
         env:
           CONFIG_COOKIE: ${{ vars.CONFIG_COOKIE }}
-      - name: 提交并触发 Netlify 重新部署
+      - name: 提交数据快照
         run: |
           git config user.email "bot@local"
           git config user.name "scraper"
           git add -A
-          git commit -m "auto: 定时爬取轩辕实时出勤 (`date -u`)" || echo "无变化"
+          git commit -m "auto: 数据更新 $(date -u)" || echo "无变化"
           git push
+      - name: 配置 Pages
+        uses: actions/configure-pages@v5
+      - name: 上传看板
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: public
+      - name: 部署到 GitHub Pages
+        id: deploy
+        uses: actions/deploy-pages@v4
