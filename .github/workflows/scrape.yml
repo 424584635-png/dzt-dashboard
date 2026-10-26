@@ -4,7 +4,7 @@ on:
     - cron: '*/5 * * * *'
   workflow_dispatch:
 permissions:
-  contents: write
+  contents: read
   pages: write
   id-token: write
 concurrency:
@@ -25,21 +25,13 @@ jobs:
         run: node scrape.js
         env:
           CONFIG_COOKIE: ${{ vars.CONFIG_COOKIE }}
-      - name: 提交数据快照
-        run: |
-          git config user.email "bot@local"
-          git config user.name "snapshot"
-          git add -A
-          git commit -m "auto: 数据更新 $(date -u)" || echo "无变化"
-          git push
-      - name: 配置 Pages
-        uses: actions/configure-pages@v5
-      - name: 上传看板
-        uses: actions/upload-pages-artifact@v3
+      - name: 生成看板页面
+        run: node build.js
+      - uses: actions/configure-pages@v5
+      - uses: actions/upload-pages-artifact@v3
         with:
           path: public
-      - name: 部署到 GitHub Pages
-        id: deploy
+      - id: deploy
         uses: actions/deploy-pages@v4
       - name: 推送钉钉
         run: node dingtalk-notify.js
