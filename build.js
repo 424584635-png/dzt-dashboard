@@ -288,7 +288,7 @@ function build(){
     return '<tr><td>'+esc(r.ydl)+'</td><td>'+esc(r.xiaodui)+'</td><td>'+esc(r.name)+'</td><td>'+onBadge+'</td><td>'+schedBadge+'</td>'+
       '<td>'+esc((r.schedule||[]).join('、'))+'</td><td>'+x.hours.toFixed(1)+'h</td><td>'+(r.orders||0)+'/'+x.target+'</td><td>-</td><td>0</td>'+
       '<td class="r">'+(x.ok?'达标':'未达标')+'</td><td><span class="tag tag-o">'+x.target+'单</span></td>'+
-      '<td><span class="r">'+(x.ok?'已完成':(remainDay+(x.shortMin>remainDay?'分钟(不足)':'分钟')))+'</span></td></tr>';
+      '<td><span class="r">'+(x.ok?'已完成':(remainDay+(((r.dayOnlineMin||0)+remainDay)<480?'分钟(不足)':'分钟')))+'</span></td></tr>';
   }).join('');
   i2 = setTbodySelf(i2, 'id="tb"', rowsI2);
   function dimI2(list, withTeam){
