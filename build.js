@@ -119,7 +119,17 @@ function setBetween(html, start, end, inner){
 var SIDE_CSS='';
 var SIDE_HTML='';
 
-function skin(html){ return html; }
+function skin(html){
+  try{
+    var css = require('fs').readFileSync(require('path').join(__dirname,'skin.css'));
+    var js  = require('fs').readFileSync(require('path').join(__dirname,'skin.js'));
+    require('fs').writeFileSync(require('path').join(OUT,'skin.css'), css);
+    require('fs').writeFileSync(require('path').join(OUT,'skin.js'), js);
+  }catch(e){}
+  html = html.replace('</head>','<link rel="stylesheet" href="skin.css"></head>');
+  html = html.replace('</body>','<script src="skin.js" defer></script></body>');
+  return html;
+}
 
 function build(){
   var data = JSON.parse(fs.readFileSync(path.join(__dirname,'data.json'),'utf8'));
