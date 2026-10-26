@@ -369,6 +369,19 @@ function build(){
     '.card{border:1px solid #e4eaf3!important;border-radius:14px!important;padding:22px!important;background:#fff!important;color:#14213a!important;text-decoration:none};'+
     '.foot{color:#8b9bb2!important}'+
     '</style></head>');
+  // 首页概览数据条
+  var kpi = { total: riders.length, sched: cur.length, on: cnt.online, risk: cnt.risky, will: cnt.will, ok: cnt.attained };
+  var homeKpi = '<div class="home-kpi">'
+    + '<div class="hk"><div class="hk-n">'+kpi.total+'</div><div class="hk-l">总人数</div></div>'
+    + '<div class="hk"><div class="hk-n">'+kpi.sched+'</div><div class="hk-l">当前时段排班</div></div>'
+    + '<div class="hk"><div class="hk-n g">'+kpi.on+'</div><div class="hk-l">在线</div></div>'
+    + '<div class="hk"><div class="hk-n o">'+kpi.risk+'</div><div class="hk-l">有风险</div></div>'
+    + '<div class="hk"><div class="hk-n b">'+kpi.will+'</div><div class="hk-l">预计达标</div></div>'
+    + '<div class="hk"><div class="hk-n">'+kpi.ok+'</div><div class="hk-l">已达标</div></div>'
+    + '</div>'
+    + '<div class="home-tip">'+esc(ap)+' · 数据截至 '+esc((meta.now||'').split(' ')[1]||'')+' · 每 5 分钟自动更新 · 点下方卡片进入具体板块</div>';
+  var gpos = ix.indexOf('<div class="grid">');
+  if(gpos > 0) ix = ix.slice(0, gpos) + homeKpi + ix.slice(gpos);
   // 首页增加骑手历史卡片
   var histTmp = {};
   try { histTmp = JSON.parse(fs.readFileSync(path.join(__dirname,'history.json'),'utf8')) || {}; } catch(e) {}
@@ -381,6 +394,7 @@ function build(){
       ix = ix.slice(0, closeA + 4) + histCard + ix.slice(closeA + 4);
     }
   }
+  ix = ix.replace('</head>', '<style>.home-kpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin:0 0 14px}.home-kpi .hk{background:#fff;border:1px solid #e4eaf3;border-radius:14px;padding:14px;text-align:center}.home-kpi .hk-n{font-size:24px;font-weight:800;color:#14213a;font-variant-numeric:tabular-nums}.home-kpi .hk-n.g{color:#16a34a}.home-kpi .hk-n.o{color:#d97706}.home-kpi .hk-n.b{color:#2563eb}.home-kpi .hk-l{font-size:11.5px;color:#60718a;margin-top:2px}.home-tip{color:#60718a;font-size:12px;margin:0 0 18px}</style></head>');
   fs.writeFileSync(path.join(OUT,'index.html'), ix);
 
   // ===== Excel 导出 =====
