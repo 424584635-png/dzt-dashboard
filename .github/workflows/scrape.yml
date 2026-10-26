@@ -4,7 +4,7 @@ on:
     - cron: '*/5 * * * *'
   workflow_dispatch:
 permissions:
-  contents: read
+  contents: write
   pages: write
   id-token: write
 concurrency:
@@ -29,6 +29,19 @@ jobs:
           CONFIG_COOKIE: ${{ vars.CONFIG_COOKIE }}
       - name: 生成看板页面
         run: node build.js
+      - name: 每日归档历史（北京时间 23 点档）
+        run: |
+          BJ_HOUR=$(TZ=Asia/Shanghai date +%H)
+          if [ "$BJ_HOUR" = "23" ]; then
+            git config user.email "bot@local"
+            git config user.name "history-archiver"
+            git add -f history.json data.json
+            git commit -m "history: $(TZ=Asia/Shanghai date +%F)" || echo "无变化"
+            git push || echo "推送失败"
+            echo "已归档 $BJ_HOUR 点档历史"
+          else
+            echo "非归档时段（当前北京 $BJ_HOUR 点），跳过"
+          fi
       - uses: actions/configure-pages@v5
       - uses: actions/upload-pages-artifact@v3
         with:
