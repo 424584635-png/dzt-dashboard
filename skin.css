@@ -66,12 +66,15 @@ td:nth-child(n+6){font-variant-numeric:tabular-nums}
 
 .stamp{background:#eef4ff!important;color:#1d4ed8!important;border:1px solid #dbe6ff!important;border-radius:8px!important}
 
-/* nav tidy */
-.rnav{justify-content:flex-start!important;align-items:center!important;gap:10px!important}
-.rnav-i{flex:0 0 auto!important;width:auto!important;white-space:nowrap;display:inline-flex!important;align-items:center;gap:6px}
-/* id2 横向滚动 */
-.panel{overflow-x:auto!important;overflow-y:visible!important}
-#rt{min-width:1180px}
+/* 导航重设计 */
+.rnav{position:sticky!important;top:0;z-index:60;display:flex!important;align-items:center;gap:6px;padding:8px 14px!important;background:#fff!important;border-bottom:1px solid var(--bd)!important;box-shadow:0 4px 14px rgba(16,32,64,.05)}
+.rnav-i{flex:0 0 auto!important;display:inline-flex!important;align-items:center;gap:6px;padding:8px 16px!important;border-radius:10px!important;font-size:13px;font-weight:600;color:#5b6b83!important;text-decoration:none;border:1px solid transparent;white-space:nowrap;line-height:1.1}
+.rnav-i:hover{background:#f2f6fc!important;color:#14213a!important}
+.rnav-i.active,.rnav-i.on{background:linear-gradient(135deg,#1d4ed8,#3b82f6)!important;color:#fff!important;box-shadow:0 6px 16px rgba(29,78,216,.25)}
+@media(max-width:720px){.rnav{overflow-x:auto}.rnav-i{padding:7px 12px!important;font-size:12.5px}}
+/* id2 表格单独横向滚动（不影响上方筛选对齐） */
+.dzt-xscroll{overflow-x:auto;overflow-y:hidden;-webkit-overflow-scrolling:touch}
+.dzt-xscroll #rt{min-width:1180px}
 #rt th,#rt td{white-space:nowrap}
 #rt thead th{position:sticky;top:0;background:#f6f8fc;z-index:2}
 /* 历史页 */
