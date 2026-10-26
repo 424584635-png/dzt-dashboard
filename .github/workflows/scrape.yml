@@ -16,7 +16,7 @@ jobs:
       - name: 爬取并写回 public/data.json
         run: node scrape.js
         env:
-          CONFIG_COOKIE: ${{ secrets.CONFIG_COOKIE }}
+          CONFIG_COOKIE: ${{ vars.CONFIG_COOKIE }}
       - name: 提交并触发 Netlify 重新部署
         run: |
           git config user.email "bot@local"
