@@ -369,6 +369,8 @@ function build(){
     '.card{border:1px solid #e4eaf3!important;border-radius:14px!important;padding:22px!important;background:#fff!important;color:#14213a!important;text-decoration:none};'+
     '.foot{color:#8b9bb2!important}'+
     '</style></head>');
+  // 首页仅保留门（播报首页），其余板块藏在门后
+  ix = ix.replace(/<a class="rnav-i"[^>]*href="(id1|id2|history)\.html"[^>]*>[^<]*<\/a>/g, '');
   // 首页概览数据条
   var kpi = { total: riders.length, sched: cur.length, on: cnt.online, risk: cnt.risky, will: cnt.will, ok: cnt.attained };
   var homeKpi = '<div class="home-kpi">'
