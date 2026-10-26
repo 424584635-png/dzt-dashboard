@@ -1,0 +1,17 @@
+[build]
+  publish = "public"
+[functions]
+  node_bundler = "esbuild"
+
+[[redirects]]
+  from = "/api/data"
+  to = "/.netlify/functions/data"
+  status = 200
+
+[[redirects]]
+  from = "/api/history"
+  to = "/.netlify/functions/history"
+  status = 200
+
+[functions.scrape]
+  schedule = "*/10 * * * *"
