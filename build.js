@@ -280,7 +280,7 @@ function build(){
   i2 = i2.replace(/<div class="cnt" id="cntInfo">[^<]*<\/div>/, '<div class="cnt" id="cntInfo">共 '+riders.length+' 条记录</div>');
   var lnOrder={'优选':0,'蜂跑':1,'优远':2};
   eff.sort(function(a,b){ var la=lnOrder[a.r.ydl]||9, lb=lnOrder[b.r.ydl]||9; if(la!==lb) return la-lb; if(a.r.xiaodui!==b.r.xiaodui) return a.r.xiaodui<b.r.xiaodui?-1:1; return a.r.name<b.r.name?-1:1; });
-  var remainCur = Math.max(0, pEnd(ap)-now);
+  var remainDay = Math.max(0, 1440-now);
   var rowsI2 = eff.map(function(x){
     var r=x.r;
     var onBadge = r.onlineStatus==='在线' ? '<span class="tag tag-on">● 在线</span>' : '<span class="tag tag-off">○ 离线</span>';
@@ -288,7 +288,7 @@ function build(){
     return '<tr><td>'+esc(r.ydl)+'</td><td>'+esc(r.xiaodui)+'</td><td>'+esc(r.name)+'</td><td>'+onBadge+'</td><td>'+schedBadge+'</td>'+
       '<td>'+esc((r.schedule||[]).join('、'))+'</td><td>'+x.hours.toFixed(1)+'h</td><td>'+(r.orders||0)+'/'+x.target+'</td><td>-</td><td>0</td>'+
       '<td class="r">'+(x.ok?'达标':'未达标')+'</td><td><span class="tag tag-o">'+x.target+'单</span></td>'+
-      '<td><span class="r">'+(x.ok?'已完成':(remainCur+(x.shortMin>remainCur?'分钟(不足)':'分钟')))+'</span></td></tr>';
+      '<td><span class="r">'+(x.ok?'已完成':(remainDay+(x.shortMin>remainDay?'分钟(不足)':'分钟')))+'</span></td></tr>';
   }).join('');
   i2 = setTbodySelf(i2, 'id="tb"', rowsI2);
   function dimI2(list, withTeam){
