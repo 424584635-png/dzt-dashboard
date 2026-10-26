@@ -346,7 +346,8 @@ function build(){
   // 30天历史 + 骑手维度（完美出勤 / 有效出勤）
   var hist = {};
   try{ hist = JSON.parse(fs.readFileSync(path.join(__dirname,'history.json'),'utf8'))||{}; }catch(e){}
-  var days = Object.keys(hist).sort().slice(-30);
+  var daysAll = Object.keys(hist).sort().filter(function(d){ return d < date; });
+  var days = daysAll.slice(-30);
   var rowsH = [['日期','骑手','ID','小队','运力线','排班时段数','已达标时段','未达标时段','完美出勤','在线时长(分)','完单','目标单量','有效出勤']];
   var riderStat = {};
   days.forEach(function(d){
