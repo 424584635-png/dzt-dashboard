@@ -3,15 +3,261 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>大众包 · 骑手实时出勤看板</title>
-<link rel="stylesheet" href="styles.css">
-</head>
+<title>众包骑手监控看板 · 实时播报入口</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+         background: #f5f6f8; min-height: 100vh; display: flex;
+         align-items: center; justify-content: center; padding: 24px; }
+  .wrap { max-width: 860px; width: 100%; }
+  h1 { font-size: 24px; color: #1f2329; margin-bottom: 6px; }
+  .sub { color: #8a919e; font-size: 13px; margin-bottom: 28px; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  @media (max-width: 640px) { .grid { grid-template-columns: 1fr; } }
+  a.card { display: block; background: #fff; border-radius: 12px; padding: 26px 24px;
+           text-decoration: none; border: 1px solid #e5e6eb;
+           transition: box-shadow .2s, transform .2s; }
+  a.card:hover { box-shadow: 0 6px 20px rgba(31,35,41,.10); transform: translateY(-2px); }
+  .icon { font-size: 34px; margin-bottom: 12px; }
+  .name { font-size: 18px; font-weight: 600; color: #1f2329; margin-bottom: 6px; }
+  .desc { font-size: 13px; color: #646a73; line-height: 1.6; margin-bottom: 14px; }
+  .stamp { font-size: 12px; color: #f53f3f; background: #ffece8;
+           display: inline-block; padding: 3px 10px; border-radius: 4px; }
+  .foot { margin-top: 22px; font-size: 12px; color: #8a919e; text-align: center; }
+</style>
+<style>.rf-btn,.rf-wrap,#rf-toast,.rf-toast{display:none!important}</style><link rel="stylesheet" href="skin.css"><style>body{display:block!important;padding:0!important;background:#eef2f8!important;min-height:100vh}.wrap{max-width:1100px!important;margin:0 auto!important;padding:36px 16px 60px!important}.grid{display:grid!important;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))!important;gap:16px!important}h1{font-size:22px!important;margin-bottom:6px!important;color:#14213a}.sub{color:#60718a!important;font-size:13px!important;margin-bottom:24px!important}.card{border:1px solid #e4eaf3!important;border-radius:14px!important;padding:22px!important;background:#fff!important;color:#14213a!important;text-decoration:none};.foot{color:#8b9bb2!important}</style><style>.home-kpi{display:grid;grid-template-columns:repeat(auto-fit,minmax(140px,1fr));gap:10px;margin:0 0 14px}.home-kpi .hk{background:#fff;border:1px solid #e4eaf3;border-radius:14px;padding:14px;text-align:center}.home-kpi .hk-n{font-size:24px;font-weight:800;color:#14213a;font-variant-numeric:tabular-nums}.home-kpi .hk-n.g{color:#16a34a}.home-kpi .hk-n.o{color:#d97706}.home-kpi .hk-n.b{color:#2563eb}.home-kpi .hk-l{font-size:11.5px;color:#60718a;margin-top:2px}.home-tip{color:#60718a;font-size:12px;margin:0 0 18px}</style></head>
 <body>
-<div id="topnav"></div>
-<div id="app"></div>
-<div id="refreshBar"></div>
-<div id="modalRoot"></div>
-<script src="data.js"></script>
-<script src="app.js"></script>
-</body>
+<div class="rnav" id="rnav"><a class="rnav-i" data-nav="home" href="index.html">🏠 播报首页</a>
+  
+  
+  
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="wrap">
+  <h1>🏍️ 众包骑手监控看板</h1>
+  <div class="sub">实时数据播报入口 · 数据来源于轩辕系统实时排班考勤监控</div>
+  <div class="home-kpi"><div class="hk"><div class="hk-n">248</div><div class="hk-l">总人数</div></div><div class="hk"><div class="hk-n">0</div><div class="hk-l">当前时段排班</div></div><div class="hk"><div class="hk-n g">0</div><div class="hk-l">在线</div></div><div class="hk"><div class="hk-n o">0</div><div class="hk-l">有风险</div></div><div class="hk"><div class="hk-n b">0</div><div class="hk-l">预计达标</div></div><div class="hk"><div class="hk-n">0</div><div class="hk-l">已达标</div></div></div><div class="home-tip">早餐1 · 数据截至 06:21 · 每 5 分钟自动更新 · 点下方卡片进入具体板块</div><div class="grid">
+    <a class="card" href="id1.html">
+      <div class="icon">📊</div>
+      <div class="name">众包实时骑手监控</div>
+      <div class="desc">当前时段到岗监控：各时段排班/在线/达标状态、全天达成情况，支持筛选排序。</div>
+      <div class="stamp" id="s1">数据截至 06:21</div>
+    </a>
+    <a class="card" href="id2.html">
+      <div class="icon">✅</div>
+      <div class="name">有效出勤监控</div>
+      <div class="desc">有效出勤达标看板：在线 8 小时且完单达标，小队/运力线达成率汇总。</div>
+      <div class="stamp" id="s2">数据截至 06:21</div>
+    </a><a class="card history-card" href="history.html"><div class="icon">📈</div><div class="name">骑手历史达成</div><div class="desc">完美出勤 / 有效出勤统计：排班天数、完美出勤天数与达成率，可下载表格。</div><div class="stamp">统计 1 天</div></a>
+  </div>
+  <div id="refresh-anchor"></div>
+  <div class="foot">本页面由定时任务每 5 分钟自动采集更新 · 如需帮助请联系运营支持</div>
+  
+</div>
+<script src="skin.js" defer></script></body>
 </html>

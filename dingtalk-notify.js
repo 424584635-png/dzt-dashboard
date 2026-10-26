@@ -48,7 +48,8 @@ async function main(){
   });
   var sha='';
   try{ sha = execSync('git rev-parse --short HEAD',{encoding:'utf8'}).trim(); }catch(e){}
-  var link = 'https://424584635-png.github.io/dzt-dashboard/' + (sha ? ('?t='+sha) : '');
+  var ver = process.env.DZT_VERSION || '';
+  var link = 'https://424584635-png.github.io/dzt-dashboard/' + (ver ? ('?v='+ver) : (sha ? ('?t='+sha) : ''));
   var text = '## 🏍️ 骑手实时出勤\n\n'+
     '**时段**：'+ap+' · 剩余 '+minToHM(pEnd(ap)-now)+' · 截至 '+fmtNow()+'\n\n'+
     '**当前排班**：'+c.sched+' 人\n\n'+
