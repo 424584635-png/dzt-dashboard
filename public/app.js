@@ -165,7 +165,7 @@
     var EXT = (typeof chrome!=='undefined' && chrome.runtime);
     var extBtns = EXT ? '<button data-act="openWindow">🖥️ 窗口打开</button><button data-act="copyRaw">📋 复制原始样本</button>' : '';
     return '<div class="refresh-bar"><span>数据来源：<b>'+(SOURCE||"加载中…")+'</b> · 数据截至 '+(META&&META.now||"-")+
-      '</span><span class="ctrl"><label><input type="checkbox" data-act="auto" checked> 自动刷新(60s)</label>'+
+      '</span><span class="ctrl"><label><input type="checkbox" data-act="auto" checked> 自动刷新(10s)</label>'+
       extBtns+
       '<button data-act="refresh">🔄 立即刷新</button></span></div>';
   }
@@ -705,7 +705,7 @@
   function closeModals(){document.getElementById("mask").style.display="none";document.getElementById("rulesModal").style.display="none";document.getElementById("pm-modal").style.display="none";}
 
   var autoTimer=null;
-  function startAuto(){if(autoTimer)return;autoTimer=setInterval(function(){refresh();},60000);}
+  function startAuto(){if(autoTimer)return;autoTimer=setInterval(function(){refresh();},10000);}
   function stopAuto(){if(autoTimer){clearInterval(autoTimer);autoTimer=null;}}
   function refresh(){
     loadData().then(function(){ render(); });
