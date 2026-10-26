@@ -134,6 +134,8 @@ function clean(html){
       if(end>0) html = html.slice(0, second) + html.slice(end+6);
     }
   }
+  // 导航追加“骑手历史”
+  html = html.replace(/<a class="rnav-i" data-nav="home"[^>]*>[^<]*<\/a>/, function(m){ return m + '<a class="rnav-i" data-nav="hist" href="history.html">📈 骑手历史</a>'; });
   // 3) 取消自动重载（屏闪根因）
   html = html.split('location.reload()').join('void 0');
   // 4) 兜底隐藏刷新按钮/toast
@@ -381,6 +383,45 @@ function build(){
   fs.writeFileSync(path.join(OUT,'history_30d_live.xlsx'), XLSX.buildXlsx('近30天历史', rowsH));
   console.log('Excel: 明细', curRowsX.length-1, '行 / 历史', rowsH.length, '行 / 天数', days.length);
 
+  // ===== 骑手历史页 =====
+  var baseCss = (fs.readFileSync(path.join(TPL,'id1.html'),'utf8').match(/<style>[\s\S]*?<\/style>/)||[''])[0];
+  var statArr = Object.keys(riderStat).map(function(k){ return riderStat[k]; });
+  statArr.sort(function(a,b){ return (b.perfect/Math.max(b.days,1))-(a.perfect/Math.max(a.days,1)); });
+  var totDays = days.length;
+  var sumPerfect = statArr.reduce(function(a,x){ return a+x.perfect; },0);
+  var sumEffective = statArr.reduce(function(a,x){ return a+x.effective; },0);
+  var sumSched = statArr.reduce(function(a,x){ return a+x.days; },0);
+  var cardsH = '<div class="hist-cards">'+
+    hc('统计天数', totDays)+hc('排班人次', sumSched)+hc('完美出勤人次', sumPerfect)+
+    hc('完美出勤率', (sumSched?(sumPerfect/sumSched*100).toFixed(1):'0.0')+'%')+
+    hc('有效出勤人次', sumEffective)+hc('有效出勤率', (sumSched?(sumEffective/sumSched*100).toFixed(1):'0.0')+'%')+'</div>';
+  function hc(l,n){ return '<div class="hist-card"><div class="n">'+n+'</div><div class="l">'+l+'</div></div>'; }
+  var rowsH2 = statArr.map(function(x){
+    var pr = x.days?(x.perfect/x.days*100):0, er = x.days?(x.effective/x.days*100):0;
+    return '<tr data-name="'+esc(x.name)+'" data-team="'+esc(x.team)+'" data-line="'+esc(x.line)+'" data-days="'+x.days+'" data-perfect="'+x.perfect+'" data-prate="'+pr.toFixed(1)+'" data-eff="'+x.effective+'" data-erate="'+er.toFixed(1)+'">'+
+      '<td class="ta-l"><span class="rn">'+esc(x.name)+'</span></td><td>'+esc(x.team)+'</td><td>'+esc(x.line)+'</td>'+
+      '<td>'+x.days+'</td><td>'+x.perfect+'</td><td>'+pr.toFixed(1)+'%</td><td>'+x.effective+'</td><td>'+er.toFixed(1)+'%</td></tr>';
+  }).join('');
+  var histHtml = '<!DOCTYPE html><html lang="zh-CN"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width,initial-scale=1">'+
+    '<title>骑手历史达成 '+esc(date)+'</title>'+baseCss+'<link rel="stylesheet" href="skin.css"></head><body>'+
+    '<div class="rnav"><a class="rnav-i" href="id1.html">📊 实时骑手监控</a><a class="rnav-i" href="id2.html">✅ 有效出勤监控</a><a class="rnav-i" href="index.html">🏠 播报首页</a><a class="rnav-i active" href="history.html">📈 骑手历史</a></div>'+
+    '<div class="hd"><h1>📈 骑手历史达成</h1><p>近 '+days.length+' 天 · 完美出勤 / 有效出勤</p>'+
+    '<div class="dl-bar"><a class="dl-btn" href="rider_history.xlsx" download>⬇️ 下载骑手历史表格（Excel）</a></div></div>'+
+    cardsH+
+    '<div class="tw" style="margin:12px 16px"><table id="histTable"><thead><tr>'+
+    '<th data-key="name" onclick="sortH(this)">骑手</th><th data-key="team" onclick="sortH(this)">小队</th><th data-key="line" onclick="sortH(this)">运力线</th>'+
+    '<th data-key="days" onclick="sortH(this)">排班天数</th><th data-key="perfect" onclick="sortH(this)">完美出勤天数</th><th data-key="prate" onclick="sortH(this)">完美出勤率</th>'+
+    '<th data-key="eff" onclick="sortH(this)">有效出勤天数</th><th data-key="erate" onclick="sortH(this)">有效出勤率</th></tr></thead><tbody>'+
+    (rowsH2||'<tr><td colspan="8" style="text-align:center;padding:30px;color:#9aa8bd">暂无历史数据（需累积）</td></tr>')+'</tbody></table></div>'+
+    '<div class="foot" style="text-align:center;padding:16px;color:#8b9bb2;font-size:12px">完美出勤 = 当天所有排班时段均达标 · 有效出勤 = 在线≥8小时且完单达标</div>'+
+    '<script>var hs=null,hd=false;function sortH(th){var tb=document.querySelector("#histTable tbody");var k=th.getAttribute("data-key");var rows=[].slice.call(tb.rows);var desc=(hs===k)?!hd:false;rows.sort(function(a,b){var av=a.getAttribute("data-"+k)||"",bv=b.getAttribute("data-"+k)||"";var na=parseFloat(av),nb=parseFloat(bv);var c=(!isNaN(na)&&!isNaN(nb))?(na-nb):(av<bv?-1:av>bv?1:0);return desc?-c:c;});rows.forEach(function(r){tb.appendChild(r);});var ths=document.querySelectorAll("#histTable th[data-key]");ths.forEach(function(t){t.removeAttribute("data-dir");});th.setAttribute("data-dir",desc?"desc":"asc");hs=k;hd=desc;}<\/script>'+
+    '</body></html>';
+  fs.writeFileSync(path.join(OUT,'history.html'), histHtml);
+  // Excel：骑手历史
+  var rowsRH=[['骑手','小队','运力线','排班天数','完美出勤天数','完美出勤率','有效出勤天数','有效出勤率']];
+  statArr.forEach(function(x){ rowsRH.push([x.name,x.team,x.line,x.days,x.perfect,(x.days?(x.perfect/x.days*100).toFixed(1):'0.0')+'%',x.effective,(x.days?(x.effective/x.days*100).toFixed(1):'0.0')+'%']); });
+  fs.writeFileSync(path.join(OUT,'rider_history.xlsx'), XLSX.buildXlsx('骑手历史', rowsRH));
+  console.log('history 页: 骑手', statArr.length, '| 天数', days.length);
   console.log('id2/index 生成: 达标', effOk.length, '/', riders.length, '('+effRate.toFixed(1)+'%)');
   h1 = skin(h1);
   fs.writeFileSync(path.join(OUT,'id1.html'), h1);
