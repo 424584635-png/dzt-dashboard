@@ -165,7 +165,7 @@
     var EXT = (typeof chrome!=='undefined' && chrome.runtime);
     var extBtns = EXT ? '<button data-act="openWindow">🖥️ 窗口打开</button><button data-act="copyRaw">📋 复制原始样本</button>' : '';
     return '<div class="refresh-bar"><span>数据来源：<b>'+(SOURCE||"加载中…")+'</b> · 数据截至 '+(META&&META.now||"-")+
-      '</span><span class="ctrl"><label><input type="checkbox" data-act="auto"> 自动刷新(60s)</label>'+
+      '</span><span class="ctrl"><label><input type="checkbox" data-act="auto" checked> 自动刷新(60s)</label>'+
       extBtns+
       '<button data-act="refresh">🔄 立即刷新</button></span></div>';
   }
@@ -763,6 +763,7 @@
       META=j.meta||{}; RIDERS=j.riders||[];
       var now=parseNow(META.now); NOW=now; ACTIVE=activeFor(now); ACTIVE_START=pStart(ACTIVE); ACTIVE_END=pEnd(ACTIVE); REMAIN=ACTIVE_END-now; TOMID=1440-now;
       boot();
+      startAuto();
     });
   }
   if(document.readyState==="loading") document.addEventListener("DOMContentLoaded",init); else init();
