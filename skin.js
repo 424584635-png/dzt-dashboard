@@ -2,6 +2,26 @@
 (function(){
   function ready(fn){ if(document.readyState!=='loading') fn(); else document.addEventListener('DOMContentLoaded',fn); }
   ready(function(){
+    // 导航高亮：按当前文件名匹配
+    var navActive=function(){
+      var f=(location.pathname.split('/').pop()||'index.html').toLowerCase();
+      var key = f.indexOf('id1')>=0?'id1' : f.indexOf('id2')>=0?'id2' : f.indexOf('history')>=0?'hist':'home';
+      var map={id1:'id1.html',id2:'id2.html',home:'index.html',hist:'history.html'};
+      var items=document.querySelectorAll('.rnav .rnav-i');
+      for(var i=0;i<items.length;i++){
+        var it=items[i];
+        var href=(it.getAttribute('href')||'').toLowerCase();
+        it.classList.remove('active');
+        if(href===map[key]) it.classList.add('active');
+      }
+    };
+    navActive();
+    // id2：把骑手明细表包进独立滚动容器（不影响上方筛选对齐）
+    var rt=document.getElementById('rt');
+    if(rt && rt.parentNode && !(rt.parentNode.className||'').match(/dzt-xscroll/)){
+      var w=document.createElement('div'); w.className='dzt-xscroll';
+      rt.parentNode.insertBefore(w, rt); w.appendChild(rt);
+    }
     var ft=document.querySelector('.ft'); if(!ft) return;
     var fl=document.getElementById('fl'), fteam=document.getElementById('ft');
     if(!fl||!fteam||!document.getElementById('curBody')) return;
