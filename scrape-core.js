@@ -105,8 +105,7 @@ function mapRider(o, activePeriod){
     periodOrders: num(o.timeFinishOrder),
     orderTarget: num(o.todayTargetOrder||20),
     sprintTarget: 0,
-    deliveryOrders: num(o.deliveryOrder||o.delivery),
-    raw:o
+    deliveryOrders: num(o.deliveryOrder||o.delivery)
   };
 }
 function readJSON(p, def){ try{ return JSON.parse(fs.readFileSync(p,'utf8')); }catch(e){ return def; } }
