@@ -1,0 +1,26 @@
+name: 定时爬取轩辕数据
+on:
+  schedule:
+    - cron: '*/10 * * * *'
+  workflow_dispatch:
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+      - name: 爬取并写回 public/data.json
+        run: node scrape.js
+        env:
+          CONFIG_COOKIE: ${{ secrets.CONFIG_COOKIE }}
+      - name: 提交并触发 Netlify 重新部署
+        run: |
+          git config user.email "bot@local"
+          git config user.name "scraper"
+          git add -A
+          git commit -m "auto: 定时爬取轩辕实时出勤 (`date -u`)" || echo "无变化"
+          git push
