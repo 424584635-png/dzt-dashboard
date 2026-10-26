@@ -27,9 +27,9 @@ var KNOWN_TEAMS = [
   { objectType:8, objectId:7632876, name:'思茅优远五队' }
 ];
 var curCfg = {};
-function nowMin(){ var d=new Date(); return d.getHours()*60 + d.getMinutes(); }
+function nowMin(){ var d=new Date(); return ((d.getUTCHours()*60 + d.getUTCMinutes()) + 480) % 1440; }
 function activeForBg(m){ for(var i=0;i<PERIODS_BG.length;i++){ if(m>=PERIODS_BG[i][1]&&m<PERIODS_BG[i][2]) return PERIODS_BG[i][0]; } return PERIODS_BG[PERIODS_BG.length-1][0]; }
-function fmtNow(){ var d=new Date(); function p(n){return n<10?'0'+n:''+n;} return d.getFullYear()+'-'+p(d.getMonth()+1)+'-'+p(d.getDate())+' '+p(d.getHours())+':'+p(d.getMinutes()); }
+function fmtNow(){ var d=new Date(); var cn=new Date(d.getTime()+8*3600*1000); function p(n){return n<10?'0'+n:''+n;} return cn.getUTCFullYear()+'-'+p(cn.getUTCMonth()+1)+'-'+p(cn.getUTCDate())+' '+p(cn.getUTCHours())+':'+p(cn.getUTCMinutes()); }
 function num(v){ var n=Number(v); return isFinite(n)?n:0; }
 function pick(o, names){ for(var i=0;i<names.length;i++){ if(o && o[names[i]]!=null) return o[names[i]]; } return undefined; }
 function toPeriodNames(v){
@@ -62,36 +62,36 @@ function pullGroup(teams){
   });
   return Promise.all(jobs).then(function(arrs){ var all=[]; arrs.forEach(function(a){ all=all.concat(a); }); return all; });
 }
+var TC2NAME = {'100':'凌晨1','102':'凌晨2','103':'凌晨3','111':'早餐1','112':'早餐2','120':'午高峰','130':'下午茶1','131':'下午茶2','140':'晚高峰','151':'夜宵1','150':'夜宵2','9999':'全天'};
+var NAME2TC = {}; Object.keys(TC2NAME).forEach(function(k){ if(k!=='9999') NAME2TC[TC2NAME[k]]=k; });
 function mapRider(o, activePeriod){
   var isSched = (o.scheduled===true) || (o.scheduled==null && o.todayScheduled===true);
   var nm = o.objectName||'';
   var ydl = o.uplusTypeDesc;
   if(ydl==='U+'||ydl==='U＋'||ydl==='u+') ydl='优选';
   if(!ydl){ if(nm.indexOf('优选')>=0) ydl='优选'; else if(nm.indexOf('蜂跑')>=0) ydl='蜂跑'; else if(nm.indexOf('优远')>=0) ydl='优远'; else ydl='未知'; }
-  var schedRaw = pick(o,['scheduledPeriods','schedulePeriods','periodSchedule','scheduleList','timeScheduleList','scheduledTimes','scheduleTimes','periodList']);
-  var schedule = schedRaw ? toPeriodNames(schedRaw) : (isSched?[activePeriod]:[]);
-  var perRaw = pick(o,['periods','scheduleDetail','periodDetailVos','timeDetail','periodInfos','knightPeriodVos']);
-  var periods=[];
-  if(Array.isArray(perRaw) && perRaw.length){
-    periods = perRaw.map(function(p){
-      var nm2 = p.name||p.periodName||p.period||'';
-      return { name:nm2,
-        onlineMin: num(p.onlineMin!=null?p.onlineMin:(p.onlineTime!=null?Math.round(p.onlineTime/60):(p.onlineTimeSec!=null?Math.round(p.onlineTimeSec/60):null))),
-        orders: num(p.orders!=null?p.orders:(p.finishOrder!=null?p.finishOrder:(p.timeFinishOrder!=null?p.timeFinishOrder:0))),
-        maxOrders: num(p.maxOrders||p.maxFinishOrder||0),
-        delivery: num(p.delivery||p.deliveryOrder||0),
-        ended: p.ended!=null ? !!p.ended : (activeForBg(nowMin())>nm2) };
-    }).filter(function(p){ return p.name; });
-  }
-  var tOnline = pick(o,['timeOnlineTime','periodOnlineTime','curPeriodOnlineTime','timeOnlineMinute','currentOnlineTime','timeOnlineSec','onlineTime','fullDayOnlineTime']);
-  var periodOnlineMin = (tOnline!=null) ? Math.round((typeof tOnline==='number'?tOnline:parseFloat(tOnline))/60) : Math.round((o.fullDayOnlineTime||0)/60);
-  var periodOrders = num(pick(o,['timeFinishOrder','periodFinishOrder','curPeriodFinishOrder'])!=null ? pick(o,['timeFinishOrder','periodFinishOrder','curPeriodFinishOrder']) : 0);
-  var maxO = num(pick(o,['maxOrders','maxFinishOrder','dayMaxOrder','maxOrder']));
-  var delivery = num(o.deliveryOrder||o.delivery);
+  var curTC = NAME2TC[activePeriod] || '150';
+  var tcList = Array.isArray(o.scheduledTimeCode) ? o.scheduledTimeCode : (isSched ? [curTC] : []);
+  var schedule = tcList.map(function(tc){ return TC2NAME[String(tc)]; }).filter(Boolean);
+  if(!schedule.length && isSched) schedule=[activePeriod];
+  var om = (o.timeCodeOnlineTimeMap && typeof o.timeCodeOnlineTimeMap==='object') ? o.timeCodeOnlineTimeMap : {};
+  var dm = (o.timeCodeUnDeliveryTimeMap && typeof o.timeCodeUnDeliveryTimeMap==='object') ? o.timeCodeUnDeliveryTimeMap : {};
+  var periods = [];
+  tcList.forEach(function(tc){
+    var pname = TC2NAME[String(tc)]; if(!pname) return;
+    var isCur = (String(tc)===String(curTC));
+    periods.push({
+      name: pname,
+      onlineMin: Math.round((Number(om[String(tc)]||0)/60)),
+      orders: isCur ? num(o.timeFinishOrder) : null,
+      maxOrders: num(o.maxOrder),
+      delivery: isCur ? num(o.deliveryOrder) : (num(dm[String(tc)])||0),
+      ended: (Number(tc) < Number(curTC))
+    });
+  });
   if(!periods.length){
-    var entry = { name:activePeriod, onlineMin:periodOnlineMin, orders:periodOrders, maxOrders:maxO, delivery:delivery, ended:false };
-    periods = schedule.map(function(p){ return (p===activePeriod)?entry:{name:p, onlineMin:0, orders:0, maxOrders:maxO, delivery:0, ended:true}; });
-    if(!periods.length && isSched) periods=[entry];
+    periods = schedule.map(function(p){ return { name:p, onlineMin: Math.round((Number(o.timeOnlineTime)||0)/60), orders: num(o.timeFinishOrder), maxOrders: num(o.maxOrder), delivery: num(o.deliveryOrder), ended:(p!==activePeriod) }; });
+    if(!periods.length && isSched) periods=[{ name:activePeriod, onlineMin: Math.round((Number(o.timeOnlineTime)||0)/60), orders: num(o.timeFinishOrder), maxOrders: num(o.maxOrder), delivery: num(o.deliveryOrder), ended:false }];
   }
   return {
     ydl:ydl, xiaodui:nm, name:o.knightName||'', id:String(o.knightId||o.subId||''), phone:'',
@@ -102,10 +102,10 @@ function mapRider(o, activePeriod){
     dayOnlineMin: Math.round((o.fullDayOnlineTime||0)/60),
     onlineH: Math.round((o.fullDayOnlineTime||0)/360)/10,
     orders: num(o.fullDayFinishOrder!=null?o.fullDayFinishOrder:0),
-    periodOrders: periodOrders,
+    periodOrders: num(o.timeFinishOrder),
     orderTarget: num(o.todayTargetOrder||20),
     sprintTarget: 0,
-    deliveryOrders: delivery,
+    deliveryOrders: num(o.deliveryOrder||o.delivery),
     raw:o
   };
 }

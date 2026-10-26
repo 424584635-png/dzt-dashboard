@@ -100,7 +100,7 @@
     scheds.forEach(function(p){
       var end=pEnd(p), std=stdFor(p,r.ydl);
       if(end<=now){ hasEnded=true; var ent=findPeriod(r,p);
-        var met=ent&&ent.onlineMin>=std[0]&&ent.orders>=std[1];
+        var met=ent&&ent.onlineMin>=std[0] && (ent.orders==null || ent.orders>=std[1]);
         if(!met){anyNotMet=true;allMet=false;}
       }
     });
@@ -113,7 +113,7 @@
     var anyNotMet=false, hasUnstarted=false;
     scheds.forEach(function(p){
       var end=pEnd(p), start=pStart(p), std=stdFor(p,r.ydl);
-      if(end<=now){ var ent=findPeriod(r,p); if(!(ent&&ent.onlineMin>=std[0]&&ent.orders>=std[1])) anyNotMet=true; }
+      if(end<=now){ var ent=findPeriod(r,p); if(!(ent&&ent.onlineMin>=std[0] && (ent.orders==null || ent.orders>=std[1]))) anyNotMet=true; }
       else if(start>now){ hasUnstarted=true; }
     });
     if(anyNotMet) return "fail";
