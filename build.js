@@ -114,6 +114,68 @@ function setBetween(html, start, end, inner){
   return html.slice(0, i) + inner + html.slice(j);
 }
 
+
+// ===== 美化 + 左侧任务栏（注入到三个页面） =====
+var SIDE_CSS = [
+'<style id="dzt-skin">',
+/* 视觉优化：轻量、无重绘负担 */
+'.section,.panel{box-shadow:0 6px 24px rgba(23,43,77,.07)!important}',
+'.cards .cd,.cards .card{transition:transform .18s ease,box-shadow .18s ease}',
+'.cards .cd:hover,.cards .card:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(23,43,77,.12)}',
+'tbody tr{transition:background .12s ease}',
+'tbody tr:hover{background:#f6f9ff}',
+'tbody tr:nth-child(even){background:#fcfdff}',
+'tbody tr:nth-child(even):hover{background:#f6f9ff}',
+'.tw{max-height:70vh;overflow:auto;border-radius:12px}',
+'.tw thead th{position:sticky;top:0;z-index:5;background:#f7f9fc}',
+'.tg{border-radius:999px;padding:2px 10px;font-weight:600}',
+'select,input[type=text]{border-radius:10px!important;border:1px solid #dbe3ef!important;background:#fff}',
+'select:focus,input:focus{outline:none!important;box-shadow:0 0 0 3px rgba(29,78,216,.12)}',
+'.hd h1{text-shadow:0 2px 8px rgba(0,0,0,.18)}',
+'.pi{backdrop-filter:none!important}',
+/* 左侧任务栏 */
+'.dzt-side{position:fixed;left:-200px;top:150px;width:186px;transition:left .26s ease;background:#fff;border:1px solid #e6ecf5;border-radius:0 14px 14px 0;box-shadow:0 10px 30px rgba(23,43,77,.10);padding:12px 12px 14px;z-index:60;font-size:12px}',
+'.dzt-side .t{font-weight:800;color:#1d4ed8;margin-bottom:8px;font-size:13px}',
+'.dzt-side .i{display:flex;justify-content:space-between;gap:8px;padding:5px 0;border-bottom:1px dashed #eef2f8;color:#5b6b83}',
+'.dzt-side .i b{color:#22314a;font-weight:600}',
+'.dzt-side .i:last-of-type{border-bottom:none}',
+'.dzt-side .ok{color:#16a34a}.dzt-side .bad{color:#dc2626}',
+'.dzt-side .btn{display:block;width:100%;margin-top:10px;padding:8px 0;border:0;border-radius:10px;background:linear-gradient(135deg,#1d4ed8,#3b82f6);color:#fff;font-weight:700;cursor:pointer;font-size:12px}',
+'.dzt-side .btn:hover{filter:brightness(1.06)}',
+'.dzt-side .btn.ghost{background:#f1f5fb;color:#1d4ed8;margin-top:6px}',
+'.dzt-side.open{left:0}',
+'.dzt-tab{position:fixed;left:0;top:150px;z-index:61;background:linear-gradient(135deg,#1d4ed8,#3b82f6);color:#fff;border-radius:0 10px 10px 0;padding:10px 8px;font-size:12px;font-weight:700;cursor:pointer;box-shadow:0 6px 18px rgba(29,78,216,.3);writing-mode:vertical-rl}',
+'.dzt-tab:hover{filter:brightness(1.08)}',
+'@media(max-width:1100px){.dzt-side{display:none}}',
+'body{padding-left:0}',
+'@media(min-width:1101px){.dzt-side~*{}}',
+'</style>'
+].join('');
+
+var SIDE_HTML = '<div class="dzt-tab" id="dztTab" onclick="dztToggle()">⏱ 任务</div>'+'<div class="dzt-side" id="dztSide">'+
+  '<div class="t">⏱ 定时任务</div>'+
+  '<div class="i"><b>抓取并推送</b><span>每 5 分钟</span></div>'+
+  '<div class="i"><b>数据截至</b><span id="dztStamp">--</span></div>'+
+  '<div class="i"><b>最近运行</b><span id="dztRun">--</span></div>'+
+  '<button class="btn" onclick="dztOpenRun()">🔄 手动推送</button>'+
+  '<button class="btn ghost" onclick="dztRefresh()">↻ 刷新本页</button>'+
+  '</div>'+
+  '<script>'+
+  'function dztOpenRun(){window.open("https://github.com/424584635-png/dzt-dashboard/actions/workflows/scrape.yml","_blank");}'+
+  'function dztRefresh(){location.reload();}'+'function dztToggle(){var e=document.getElementById("dztSide");if(e)e.classList.toggle("open");}'+
+  '(function(){'+
+  'fetch("stamp.json?t="+Date.now()).then(function(r){return r.json();}).then(function(j){var v=(j&&j.id1)||"";var e=document.getElementById("dztStamp");if(e&&v)e.textContent=v.slice(11)||v;}).catch(function(){});'+
+  'fetch("https://api.github.com/repos/424584635-png/dzt-dashboard/actions/runs?per_page=1").then(function(r){return r.json();}).then(function(j){var w=(j.workflow_runs||[])[0];var e=document.getElementById("dztRun");if(e&&w){e.textContent=(w.conclusion==="success"?"✅ ":"❌ ")+new Date(w.updated_at).toLocaleTimeString();e.className=(w.conclusion==="success"?"ok":"bad");}}).catch(function(){var e=document.getElementById("dztRun");if(e)e.textContent="--";});'+
+  '})();'+
+  '<\/script>';
+
+function skin(html){
+  html = html.replace('</head>', SIDE_CSS + '</head>');
+  var m = html.match(/<div class="rnav"[^>]*>([\s\S]*?)<\/div>/);
+  if(m){ html = html.replace(m[0], m[0] + SIDE_HTML); }
+  return html;
+}
+
 function build(){
   var data = JSON.parse(fs.readFileSync(path.join(__dirname,'data.json'),'utf8'));
   var meta = data.meta||{}, riders = data.riders||[];
@@ -264,14 +326,75 @@ function build(){
   i2 = i2.replace(/共 \d+ 个小队/, '共 '+byTeamList.length+' 个小队');
   i2 = setTbody(i2, '共 '+byTeamList.length+' 个小队', dimI2(byTeamList, true));
   i2 = setTbody(i2, 'id="sec2"', dimI2(byLineList, false));
+  i2 = skin(i2);
   fs.writeFileSync(path.join(OUT,'id2.html'), i2);
 
   // ================= index 播报首页 =================
   var ix = fs.readFileSync(path.join(TPL,'index.html'),'utf8');
   ix = ix.replace('数据截至 --', '数据截至 '+esc((meta.now||'').split(' ')[1]||''));
   while(ix.indexOf('数据截至 --')>=0) ix = ix.replace('数据截至 --', '数据截至 '+esc((meta.now||'').split(' ')[1]||''));
+  ix = skin(ix);
   fs.writeFileSync(path.join(OUT,'index.html'), ix);
+
+  // ===== Excel 导出 =====
+  var XLSX = require('./xlsx.js');
+  var curRowsX = [['骑手','ID','小队','运力线','排班时段','在线状态','当前在线(分)','时长要求(分)','当前完单','单量要求','最大单量','配送中','达标状态']];
+  cur.forEach(function(x){
+    var ent=findPeriod(x.r,ap), std=stdFor(ap,x.r.ydl), on=x.r.onlineStatus==='在线';
+    curRowsX.push([x.r.name, x.r.id, x.r.xiaodui, x.r.ydl, (x.r.schedule||[]).join('、'), on?'在线':'离线',
+      ent?ent.onlineMin:0, std[0], ent&&ent.orders!=null?ent.orders:0, std[1], ent?ent.maxOrders:0, ent?ent.delivery:0,
+      ({3:'已达标',0:'确定不达标',1:'有风险',2:'预计达标'})[x.st]||'']);
+  });
+  day.forEach(function(r){
+    var di=dayInfo(r,ap,records,date);
+    curRowsX.push([r.name, r.id, r.xiaodui, r.ydl, (r.schedule||[]).join('、'), r.onlineStatus,
+      r.dayOnlineMin||0, 480, r.orders||0, r.orderTarget||20, di.maxo, r.deliveryOrders||0,
+      di.state==='done'?'全天达成':di.state==='will'?'预计达标':'未达标']);
+  });
+  fs.writeFileSync(path.join(OUT,'monitor_latest.xlsx'), XLSX.buildXlsx('实时出勤', curRowsX));
+
+  // 30天历史 + 骑手维度（完美出勤 / 有效出勤）
+  var hist = {};
+  try{ hist = JSON.parse(fs.readFileSync(path.join(__dirname,'history.json'),'utf8'))||{}; }catch(e){}
+  var days = Object.keys(hist).sort().slice(-30);
+  var rowsH = [['日期','骑手','ID','小队','运力线','排班时段数','已达标时段','未达标时段','完美出勤','在线时长(分)','完单','目标单量','有效出勤']];
+  var riderStat = {};
+  days.forEach(function(d){
+    var dayRiders = (hist[d].riders)||[];
+    dayRiders.forEach(function(r){
+      var sched=(r.schedule||[]).slice().sort(function(a,b){ return pIdx(a)-pIdx(b); });
+      var curIdx = d===date ? pIdx(ap) : 99;
+      var met=0, fail=0, endedCount=0;
+      sched.forEach(function(pp){
+        var i=pIdx(pp); if(i<0) return;
+        if(i>=curIdx) return;
+        endedCount++;
+        var std=stdFor(pp,r.ydl), ent=findPeriod(r,pp);
+        var om=ent?ent.onlineMin:0, od=ent?ent.orders:null;
+        if(om>=std[0] && (od==null || od>=std[1])) met++; else fail++;
+      });
+      var perfect = endedCount>0 && fail===0 && sched.length===endedCount;
+      var target=r.orderTarget||20;
+      var effective = (r.dayOnlineMin||0)>=480 && (r.orders||0)>=target;
+      rowsH.push([d, r.name, r.id, r.xiaodui, r.ydl, sched.length, met, fail, perfect?'是':'否', r.dayOnlineMin||0, r.orders||0, target, effective?'是':'否']);
+      var k=r.id||r.name;
+      if(!riderStat[k]) riderStat[k]={name:r.name, team:r.xiaodui, line:r.ydl, days:0, perfect:0, effective:0};
+      riderStat[k].days++; if(perfect) riderStat[k].perfect++; if(effective) riderStat[k].effective++;
+    });
+  });
+  rowsH.push([]);
+  rowsH.push(['骑手维度汇总（近'+days.length+'天）']);
+  rowsH.push(['骑手','小队','运力线','出勤天数','完美出勤天数','有效出勤天数','完美出勤率','有效出勤率']);
+  Object.keys(riderStat).sort(function(a,b){ return riderStat[b].perfect-riderStat[a].perfect; }).forEach(function(k){
+    var x=riderStat[k];
+    rowsH.push([x.name, x.team, x.line, x.days, x.perfect, x.effective,
+      (x.days?(x.perfect/x.days*100).toFixed(1):'0.0')+'%', (x.days?(x.effective/x.days*100).toFixed(1):'0.0')+'%']);
+  });
+  fs.writeFileSync(path.join(OUT,'history_30d_live.xlsx'), XLSX.buildXlsx('近30天历史', rowsH));
+  console.log('Excel: 明细', curRowsX.length-1, '行 / 历史', rowsH.length, '行 / 天数', days.length);
+
   console.log('id2/index 生成: 达标', effOk.length, '/', riders.length, '('+effRate.toFixed(1)+'%)');
+  h1 = skin(h1);
   fs.writeFileSync(path.join(OUT,'id1.html'), h1);
 
   fs.writeFileSync(path.join(OUT,'stamp.json'), JSON.stringify({ id1: meta.now||'', id2: meta.now||'' }));
