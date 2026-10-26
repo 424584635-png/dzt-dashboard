@@ -33,3 +33,8 @@
 ## 数据说明
 - 当前时段「在线时长」若接口仅返回全天在线，则用全天值近似（已在看板逻辑中注明）；如接口返回时段字段会自动采用。
 - 如需把字段映射定死到 100%，把 config 里 Cookie 配好后跑一次，把 data.json 里一条 rider 的 raw 字段发我即可。
+
+
+## 固定网址（两种）
+1. 纯静态最快：直接把 public/ 拖到 Netlify Drop 或 Cloudflare Pages，立刻得到固定链接（public/ 内已含最新 data.json，页面直接显示真实数据）。更新数据：本机 node scrape.js 后重新上传。
+2. 自动实时：把整个 web/ 部署到支持 Node 的平台（Railway/Render/自有服务器），配置 config.json 的 Cookie，node server.js 每 60s 自动爬取，页面自动刷新。
