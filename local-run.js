@@ -53,6 +53,9 @@ function version(){
   console.log('   push: OK');
 
   console.log('④ 推送钉钉…');
+  var dtz = {};
+  try { dtz = JSON.parse(fs.readFileSync(path.join(__dirname,'.dingtalk.json'),'utf8')); } catch(e){}
+  if(dtz.webhook){ process.env.DINGTALK_WEBHOOK = dtz.webhook; process.env.DINGTALK_SECRET = dtz.secret; }
   var env = Object.assign({}, process.env, { DZT_VERSION: v });
   var d = cp.spawnSync(process.execPath, ['dingtalk-notify.js'], { cwd: __dirname, encoding:'utf8', env: env });
   console.log('   ' + ((d.stdout||'').trim()||(d.stderr||'').trim()||'').slice(0,200));
