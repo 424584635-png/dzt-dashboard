@@ -1,0 +1,13 @@
+{
+  "name": "dzt-dashboard",
+  "version": "1.0.0",
+  "private": true,
+  "description": "大众包骑手实时出勤看板（网站版，爬取轩辕数据）",
+  "scripts": {
+    "start": "node server.js",
+    "scrape": "node scrape.js"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}
