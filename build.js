@@ -119,6 +119,28 @@ function setBetween(html, start, end, inner){
 var SIDE_CSS='';
 var SIDE_HTML='';
 
+function clean(html){
+  // 1) 去掉重复注入的 RF 组件（内含第二个导航栏 + 刷新按钮）
+  html = html.replace(/<!--RF-WIDGET-START-->[\s\S]*?<!--RF-WIDGET-END-->/g, '');
+  var i = html.indexOf('<!--RF-WIDGET-START-->');
+  if(i>=0){ var j = html.indexOf('</body>', i); if(j>0) html = html.slice(0,i) + html.slice(j); }
+  // 2) 去掉重复的导航块（只保留第一个）
+  var first = html.indexOf('<div class="rnav"');
+  if(first>=0){
+    var second = html.indexOf('<div class="rnav"', first+10);
+    if(second>=0){
+      // 找到第二个 nav 的结束 </div>（rnav 内只有 a 标签，无嵌套 div）
+      var end = html.indexOf('</div>', second);
+      if(end>0) html = html.slice(0, second) + html.slice(end+6);
+    }
+  }
+  // 3) 取消自动重载（屏闪根因）
+  html = html.split('location.reload()').join('void 0');
+  // 4) 兜底隐藏刷新按钮/toast
+  html = html.replace('</head>','<style>.rf-btn,.rf-wrap,#rf-toast,.rf-toast{display:none!important}</style></head>');
+  return html;
+}
+
 function skin(html){
   try{
     var css = require('fs').readFileSync(require('path').join(__dirname,'skin.css'));
@@ -126,6 +148,7 @@ function skin(html){
     require('fs').writeFileSync(require('path').join(OUT,'skin.css'), css);
     require('fs').writeFileSync(require('path').join(OUT,'skin.js'), js);
   }catch(e){}
+  html = clean(html);
   html = html.replace('</head>','<link rel="stylesheet" href="skin.css"></head>');
   html = html.replace('</body>','<script src="skin.js" defer></script></body>');
   return html;
@@ -290,6 +313,15 @@ function build(){
   ix = ix.replace('数据截至 --', '数据截至 '+esc((meta.now||'').split(' ')[1]||''));
   while(ix.indexOf('数据截至 --')>=0) ix = ix.replace('数据截至 --', '数据截至 '+esc((meta.now||'').split(' ')[1]||''));
   ix = skin(ix);
+  ix = ix.replace('</head>', '<style>'+
+    'body{display:block!important;padding:0!important;background:#eef2f8!important;min-height:100vh}'+
+    '.wrap{max-width:920px!important;margin:0 auto!important;padding:36px 16px 60px!important}'+
+    '.grid{display:grid!important;grid-template-columns:repeat(auto-fit,minmax(300px,1fr))!important;gap:16px!important}'+
+    'h1{font-size:22px!important;margin-bottom:6px!important;color:#14213a}'+
+    '.sub{color:#60718a!important;font-size:13px!important;margin-bottom:24px!important}'+
+    '.card{border:1px solid #e4eaf3!important;border-radius:14px!important;padding:22px!important;background:#fff!important;color:#14213a!important;text-decoration:none};'+
+    '.foot{color:#8b9bb2!important}'+
+    '</style></head>');
   fs.writeFileSync(path.join(OUT,'index.html'), ix);
 
   // ===== Excel 导出 =====
