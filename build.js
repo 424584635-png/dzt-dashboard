@@ -119,6 +119,14 @@ function setBetween(html, start, end, inner){
 var SIDE_CSS='';
 var SIDE_HTML='';
 
+function reorderNav(html){
+  // 把「播报首页」提到导航第一位
+  var home = html.match(/<a class="rnav-i"[^>]*href="index\.html"[^>]*>[^<]*<\/a>/);
+  if(!home) return html;
+  html = html.replace(home[0], '');
+  return html.replace(/(<div class="rnav"[^>]*>)/, '$1' + home[0]);
+}
+
 function clean(html){
   // 1) 去掉重复注入的 RF 组件（内含第二个导航栏 + 刷新按钮）
   html = html.replace(/<!--RF-WIDGET-START-->[\s\S]*?<!--RF-WIDGET-END-->/g, '');
@@ -140,7 +148,7 @@ function clean(html){
   html = html.split('location.reload()').join('void 0');
   // 4) 兜底隐藏刷新按钮/toast
   html = html.replace('</head>','<style>.rf-btn,.rf-wrap,#rf-toast,.rf-toast{display:none!important}</style></head>');
-  return html;
+  return reorderNav(html);
 }
 
 function skin(html){
@@ -354,13 +362,25 @@ function build(){
   ix = skin(ix);
   ix = ix.replace('</head>', '<style>'+
     'body{display:block!important;padding:0!important;background:#eef2f8!important;min-height:100vh}'+
-    '.wrap{max-width:920px!important;margin:0 auto!important;padding:36px 16px 60px!important}'+
-    '.grid{display:grid!important;grid-template-columns:repeat(auto-fit,minmax(300px,1fr))!important;gap:16px!important}'+
+    '.wrap{max-width:1100px!important;margin:0 auto!important;padding:36px 16px 60px!important}'+
+    '.grid{display:grid!important;grid-template-columns:repeat(auto-fit,minmax(280px,1fr))!important;gap:16px!important}'+
     'h1{font-size:22px!important;margin-bottom:6px!important;color:#14213a}'+
     '.sub{color:#60718a!important;font-size:13px!important;margin-bottom:24px!important}'+
     '.card{border:1px solid #e4eaf3!important;border-radius:14px!important;padding:22px!important;background:#fff!important;color:#14213a!important;text-decoration:none};'+
     '.foot{color:#8b9bb2!important}'+
     '</style></head>');
+  // 首页增加骑手历史卡片
+  var histTmp = {};
+  try { histTmp = JSON.parse(fs.readFileSync(path.join(__dirname,'history.json'),'utf8')) || {}; } catch(e) {}
+  var dcount = Object.keys(histTmp).filter(function(d){ return d < date; }).length;
+  var hi = ix.indexOf('<a class="card" href="id2.html"');
+  if(hi > 0){
+    var closeA = ix.indexOf('</a>', hi);
+    if(closeA > 0){
+      var histCard = '<a class="card history-card" href="history.html"><div class="icon">📈</div><div class="name">骑手历史达成</div><div class="desc">完美出勤 / 有效出勤统计：排班天数、完美出勤天数与达成率，可下载表格。</div><div class="stamp">统计 ' + dcount + ' 天</div></a>';
+      ix = ix.slice(0, closeA + 4) + histCard + ix.slice(closeA + 4);
+    }
+  }
   fs.writeFileSync(path.join(OUT,'index.html'), ix);
 
   // ===== Excel 导出 =====
