@@ -7,6 +7,15 @@ var cfg = loadConfig();
 if(!cfg || !cfg.cookie){ if(process.env.CONFIG_COOKIE){ cfg = { cookie: process.env.CONFIG_COOKIE, pollMs: 60000 }; } }
 if(!cfg || !cfg.cookie){ console.error('请配置 cookie（config.json 或环境变量 CONFIG_COOKIE）。'); process.exit(1); }
 function sleep(ms){ return new Promise(function(r){ setTimeout(r, ms); }); }
+// 失败时回滚，避免把空数据留在工作区（否则构建出空看板）
+var prevData = null, prevHist = null;
+try{ prevData = fs.readFileSync(path.join(__dirname,'data.json'),'utf8'); }catch(e){}
+try{ prevHist = fs.readFileSync(path.join(__dirname,'history.json'),'utf8'); }catch(e){}
+function restore(){
+  try{ if(prevData) fs.writeFileSync(path.join(__dirname,'data.json'), prevData); }catch(e){}
+  try{ if(prevHist) fs.writeFileSync(path.join(__dirname,'history.json'), prevHist); }catch(e){}
+  try{ if(prevData) fs.writeFileSync(path.join(__dirname,'public','data.json'), prevData); }catch(e){}
+}
 async function run(){
   var last = 0;
   for(var i=0;i<5;i++){
@@ -27,7 +36,8 @@ async function run(){
       await sleep(20000);
     }catch(e){ console.error('第'+(i+1)+'次失败: '+e.message); await sleep(20000); }
   }
-  console.error('连续5次失败（最后'+last+'骑手），保留旧数据不更新。');
+  console.error('连续5次失败（最后'+last+'骑手），回滚为上次数据。');
+  restore();
   process.exit(1);
 }
 run();
