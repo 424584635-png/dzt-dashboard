@@ -240,19 +240,42 @@ function build(){
   var curUn=cur.filter(function(x){return x.st===0;}), curRk=cur.filter(function(x){return x.st===1;}), curWl=cur.filter(function(x){return x.st===2;}), curAt=cur.filter(function(x){return x.st===3;});
   var dayAll=day, dayDone=day.filter(function(r){return dayInfo(r,ap,records,date).state==='done';}), dayWill=day.filter(function(r){return dayInfo(r,ap,records,date).state==='will';}), dayFail=day.filter(function(r){return dayInfo(r,ap,records,date).state==='fail';});
   var paneMap = {};
-  [['dp-all',paneRows(curAll,'cur'),'当前时段 · 排班总数'],['dp-online',paneRows(curOn,'cur'),'当前时段 · 在线'],['dp-offline',paneRows(curOff,'cur'),'当前时段 · 未在线'],
-   ['dp-unreach',paneRows(curUn,'cur'),'当前时段 · 确定不达标'],['dp-risky',paneRows(curRk,'cur'),'当前时段 · 有风险'],['dp-will',paneRows(curWl,'cur'),'当前时段 · 预计达标'],
-   ['dp-attained',paneRows(curAt,'cur'),'当前时段 · 已达标'],['dp-dayAll',paneRows(dayAll,'day'),'全天 · 今日排班'],['dp-dayDone',paneRows(dayDone,'day'),'全天 · 全天达成'],
-   ['dp-dayWill',paneRows(dayWill,'day'),'全天 · 预计达标'],['dp-dayFail',paneRows(dayFail,'day'),'全天 · 未达标'],['dp-dayPerfect',paneRows(dayAll,'day'),'全天 · 达成率']
+  // 抽取表头（当前时段 / 全天）
+  function grabHead(paneId){
+    var i = h1.indexOf('id="'+paneId+'"'); if(i<0) return '';
+    var t0 = h1.indexOf('<thead', i); var t1 = h1.indexOf('</thead>', t0);
+    return (t0>0&&t1>0) ? h1.slice(t0, t1+8) : '';
+  }
+  var headCur = grabHead('dp-will') || grabHead('dp-all');
+  var headDay = grabHead('dp-dayAll') || headCur;
+  function setPane(paneId, title, rowsHtml, head){
+    var marker = 'id="'+paneId+'"';
+    var i = h1.indexOf(marker); if(i<0) return;
+    var openEnd = h1.indexOf('>', i) + 1;
+    var next = h1.indexOf('<div class="detail-pane"', openEnd);
+    var end = next > 0 ? next : h1.indexOf('</div></div>', openEnd);
+    if(end < 0) end = openEnd;
+    var body = rowsHtml
+      ? '<div class="dp-title">'+title+'</div><div class="dp-table"><table>'+head+'<tbody>'+rowsHtml+'</tbody></table></div></div>'
+      : '<div class="dp-title">'+title+'</div><div class="empty">暂无数据</div></div>';
+    h1 = h1.slice(0, openEnd) + body + h1.slice(end);
+  }
+  [[ 'dp-all', curAll, 'cur', '当前时段 · 排班总数' ],
+   [ 'dp-online', curOn, 'cur', '当前时段 · 在线' ],
+   [ 'dp-offline', curOff, 'cur', '当前时段 · 未在线' ],
+   [ 'dp-unreach', curUn, 'cur', '当前时段 · 确定不达标' ],
+   [ 'dp-risky', curRk, 'cur', '当前时段 · 有风险' ],
+   [ 'dp-will', curWl, 'cur', '当前时段 · 预计达标' ],
+   [ 'dp-attained', curAt, 'cur', '当前时段 · 已达标' ],
+   [ 'dp-dayAll', dayAll, 'day', '全天 · 今日排班' ],
+   [ 'dp-dayDone', dayDone, 'day', '全天 · 全天达成' ],
+   [ 'dp-dayWill', dayWill, 'day', '全天 · 预计达标' ],
+   [ 'dp-dayFail', dayFail, 'day', '全天 · 未达标' ],
+   [ 'dp-dayPerfect', dayAll, 'day', '全天 · 达成率' ]
   ].forEach(function(t){
-    var id='id="'+t[0]+'"';
-    if(h1.indexOf(id)<0) return;
-    // 标题人数
-    var i=h1.indexOf(id); var tp=h1.indexOf('<div class="dp-title">', i); var tpe=h1.indexOf('</div>', tp);
-    var title=h1.slice(tp+22, tpe).replace(/（\d+ 人）/, '');
-    var n = t[1] ? (t[1].match(/<tr /g)||[]).length : 0;
-    h1 = h1.slice(0,tp) + '<div class="dp-title">'+title+'（'+n+' 人）</div>' + h1.slice(tpe+6);
-    h1 = setTbody(h1, id, t[1]);
+    var rowsHtml = paneRows(t[1], t[2]);
+    var n = (rowsHtml.match(/<tr /g)||[]).length;
+    setPane(t[0], t[3]+'（'+n+' 人）', rowsHtml, t[2]==='cur'?headCur:headDay);
   });
   // 规则表
   var rulesRows = PERIODS.map(function(p){ var st=STANDARDS[p[0]]; var t=p[0]; return '<tr><td><b>'+t+'</b></td><td>'+hms(p[1]).slice(0,5).replace(/:/,'~')+':'+String(p[2]%60).padStart(2,'0')+'</td><td>'+st.优选.join(' / ')+'</td><td>'+st.蜂跑.join(' / ')+'</td><td>'+st.优远.join(' / ')+'</td></tr>'; }).join('');
@@ -285,6 +308,11 @@ function build(){
     '<div class="card"><div class="icon">✅</div><div class="num g">'+effOk.length+'</div><div class="label">达标人数</div></div>'+
     '<div class="card"><div class="icon">📊</div><div class="num">'+effRate.toFixed(1)+'%</div><div class="label">达标率</div></div></div>';
   i2 = setBetween(i2, '<div class="cards">', '<div class="panel">', cardsI2);
+  i2 = i2.replace('<option value="not">❌ 未达标</option>',
+    '<option value="not">❌ 未达标</option>'+
+    '<option value="not_优选">🚫 优选未达标</option>'+
+    '<option value="not_蜂跑">🚫 蜂跑未达标</option>'+
+    '<option value="not_优远">🚫 优远未达标</option>');
   i2 = i2.replace(/<div class="cnt" id="cntInfo">[^<]*<\/div>/, '<div class="cnt" id="cntInfo">共 '+riders.length+' 条记录</div>');
   var lnOrder={'优选':0,'蜂跑':1,'优远':2};
   eff.sort(function(a,b){ var la=lnOrder[a.r.ydl]||9, lb=lnOrder[b.r.ydl]||9; if(la!==lb) return la-lb; if(a.r.xiaodui!==b.r.xiaodui) return a.r.xiaodui<b.r.xiaodui?-1:1; return a.r.name<b.r.name?-1:1; });
@@ -340,8 +368,9 @@ function build(){
         'for(var i=0;i<rs.length;i++){var r=rs[i];var ok=true;'+
           'if(yd&&r.getAttribute("data-ydl")!==yd)ok=false;'+
           'if(tm&&r.getAttribute("data-team")!==tm)ok=false;'+
-          'if(st==="met"&&r.getAttribute("data-met")!=="1")ok=false;'+
-          'if(st==="not"&&r.getAttribute("data-met")==="1")ok=false;'+
+          'if(st.indexOf("not_")===0){var ln=st.slice(4);if(r.getAttribute("data-met")==="1"||r.getAttribute("data-ydl")!==ln)ok=false;}'+
+          'else if(st==="met"&&r.getAttribute("data-met")!=="1")ok=false;'+
+          'else if(st==="not"&&r.getAttribute("data-met")==="1")ok=false;'+
           'if(nm&&(r.getAttribute("data-name")||"").toLowerCase().indexOf(nm)<0)ok=false;'+
           'if(ol&&r.getAttribute("data-online")!==ol)ok=false;'+
           'if(pb&&r.getAttribute("data-sched")!==pb)ok=false;'+
