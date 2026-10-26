@@ -116,65 +116,10 @@ function setBetween(html, start, end, inner){
 
 
 // ===== 美化 + 左侧任务栏（注入到三个页面） =====
-var SIDE_CSS = [
-'<style id="dzt-skin">',
-/* 视觉优化：轻量、无重绘负担 */
-'.section,.panel{box-shadow:0 6px 24px rgba(23,43,77,.07)!important}',
-'.cards .cd,.cards .card{transition:transform .18s ease,box-shadow .18s ease}',
-'.cards .cd:hover,.cards .card:hover{transform:translateY(-2px);box-shadow:0 10px 24px rgba(23,43,77,.12)}',
-'tbody tr{transition:background .12s ease}',
-'tbody tr:hover{background:#f6f9ff}',
-'tbody tr:nth-child(even){background:#fcfdff}',
-'tbody tr:nth-child(even):hover{background:#f6f9ff}',
-'.tw{max-height:70vh;overflow:auto;border-radius:12px}',
-'.tw thead th{position:sticky;top:0;z-index:5;background:#f7f9fc}',
-'.tg{border-radius:999px;padding:2px 10px;font-weight:600}',
-'select,input[type=text]{border-radius:10px!important;border:1px solid #dbe3ef!important;background:#fff}',
-'select:focus,input:focus{outline:none!important;box-shadow:0 0 0 3px rgba(29,78,216,.12)}',
-'.hd h1{text-shadow:0 2px 8px rgba(0,0,0,.18)}',
-'.pi{backdrop-filter:none!important}',
-/* 左侧任务栏 */
-'.dzt-side{position:fixed;left:-200px;top:150px;width:186px;transition:left .26s ease;background:#fff;border:1px solid #e6ecf5;border-radius:0 14px 14px 0;box-shadow:0 10px 30px rgba(23,43,77,.10);padding:12px 12px 14px;z-index:60;font-size:12px}',
-'.dzt-side .t{font-weight:800;color:#1d4ed8;margin-bottom:8px;font-size:13px}',
-'.dzt-side .i{display:flex;justify-content:space-between;gap:8px;padding:5px 0;border-bottom:1px dashed #eef2f8;color:#5b6b83}',
-'.dzt-side .i b{color:#22314a;font-weight:600}',
-'.dzt-side .i:last-of-type{border-bottom:none}',
-'.dzt-side .ok{color:#16a34a}.dzt-side .bad{color:#dc2626}',
-'.dzt-side .btn{display:block;width:100%;margin-top:10px;padding:8px 0;border:0;border-radius:10px;background:linear-gradient(135deg,#1d4ed8,#3b82f6);color:#fff;font-weight:700;cursor:pointer;font-size:12px}',
-'.dzt-side .btn:hover{filter:brightness(1.06)}',
-'.dzt-side .btn.ghost{background:#f1f5fb;color:#1d4ed8;margin-top:6px}',
-'.dzt-side.open{left:0}',
-'.dzt-tab{position:fixed;left:0;top:150px;z-index:61;background:linear-gradient(135deg,#1d4ed8,#3b82f6);color:#fff;border-radius:0 10px 10px 0;padding:10px 8px;font-size:12px;font-weight:700;cursor:pointer;box-shadow:0 6px 18px rgba(29,78,216,.3);writing-mode:vertical-rl}',
-'.dzt-tab:hover{filter:brightness(1.08)}',
-'@media(max-width:1100px){.dzt-side{display:none}}',
-'body{padding-left:0}',
-'@media(min-width:1101px){.dzt-side~*{}}',
-'</style>'
-].join('');
+var SIDE_CSS='';
+var SIDE_HTML='';
 
-var SIDE_HTML = '<div class="dzt-tab" id="dztTab" onclick="dztToggle()">⏱ 任务</div>'+'<div class="dzt-side" id="dztSide">'+
-  '<div class="t">⏱ 定时任务</div>'+
-  '<div class="i"><b>抓取并推送</b><span>每 5 分钟</span></div>'+
-  '<div class="i"><b>数据截至</b><span id="dztStamp">--</span></div>'+
-  '<div class="i"><b>最近运行</b><span id="dztRun">--</span></div>'+
-  '<button class="btn" onclick="dztOpenRun()">🔄 手动推送</button>'+
-  '<button class="btn ghost" onclick="dztRefresh()">↻ 刷新本页</button>'+
-  '</div>'+
-  '<script>'+
-  'function dztOpenRun(){window.open("https://github.com/424584635-png/dzt-dashboard/actions/workflows/scrape.yml","_blank");}'+
-  'function dztRefresh(){location.reload();}'+'function dztToggle(){var e=document.getElementById("dztSide");if(e)e.classList.toggle("open");}'+
-  '(function(){'+
-  'fetch("stamp.json?t="+Date.now()).then(function(r){return r.json();}).then(function(j){var v=(j&&j.id1)||"";var e=document.getElementById("dztStamp");if(e&&v)e.textContent=v.slice(11)||v;}).catch(function(){});'+
-  'fetch("https://api.github.com/repos/424584635-png/dzt-dashboard/actions/runs?per_page=1").then(function(r){return r.json();}).then(function(j){var w=(j.workflow_runs||[])[0];var e=document.getElementById("dztRun");if(e&&w){e.textContent=(w.conclusion==="success"?"✅ ":"❌ ")+new Date(w.updated_at).toLocaleTimeString();e.className=(w.conclusion==="success"?"ok":"bad");}}).catch(function(){var e=document.getElementById("dztRun");if(e)e.textContent="--";});'+
-  '})();'+
-  '<\/script>';
-
-function skin(html){
-  html = html.replace('</head>', SIDE_CSS + '</head>');
-  var m = html.match(/<div class="rnav"[^>]*>([\s\S]*?)<\/div>/);
-  if(m){ html = html.replace(m[0], m[0] + SIDE_HTML); }
-  return html;
-}
+function skin(html){ return html; }
 
 function build(){
   var data = JSON.parse(fs.readFileSync(path.join(__dirname,'data.json'),'utf8'));
@@ -251,6 +196,7 @@ function build(){
   var curAll=cur, curOn=cur.filter(function(x){return x.r.onlineStatus==='在线';}), curOff=cur.filter(function(x){return x.r.onlineStatus!=='在线';});
   var curUn=cur.filter(function(x){return x.st===0;}), curRk=cur.filter(function(x){return x.st===1;}), curWl=cur.filter(function(x){return x.st===2;}), curAt=cur.filter(function(x){return x.st===3;});
   var dayAll=day, dayDone=day.filter(function(r){return dayInfo(r,ap,records,date).state==='done';}), dayWill=day.filter(function(r){return dayInfo(r,ap,records,date).state==='will';}), dayFail=day.filter(function(r){return dayInfo(r,ap,records,date).state==='fail';});
+  var paneMap = {};
   [['dp-all',paneRows(curAll,'cur'),'当前时段 · 排班总数'],['dp-online',paneRows(curOn,'cur'),'当前时段 · 在线'],['dp-offline',paneRows(curOff,'cur'),'当前时段 · 未在线'],
    ['dp-unreach',paneRows(curUn,'cur'),'当前时段 · 确定不达标'],['dp-risky',paneRows(curRk,'cur'),'当前时段 · 有风险'],['dp-will',paneRows(curWl,'cur'),'当前时段 · 预计达标'],
    ['dp-attained',paneRows(curAt,'cur'),'当前时段 · 已达标'],['dp-dayAll',paneRows(dayAll,'day'),'全天 · 今日排班'],['dp-dayDone',paneRows(dayDone,'day'),'全天 · 全天达成'],
