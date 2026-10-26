@@ -2,6 +2,15 @@
 (function(){
   function ready(fn){ if(document.readyState!=='loading') fn(); else document.addEventListener('DOMContentLoaded',fn); }
   ready(function(){
+    // 汇总表也加横向滚动容器（小队维度 / 运力线维度）
+    var tbls=document.querySelectorAll('.sec table, .sub-tbl table');
+    for(var ti=0;ti<tbls.length;ti++){
+      var tb=tbls[ti];
+      if(tb.parentNode && !(tb.parentNode.className||'').match(/dzt-xscroll/)){
+        var w2=document.createElement('div'); w2.className='dzt-xscroll sm';
+        tb.parentNode.insertBefore(w2, tb); w2.appendChild(tb);
+      }
+    }
     // 导航高亮：按当前文件名匹配
     var navActive=function(){
       var f=(location.pathname.split('/').pop()||'index.html').toLowerCase();
