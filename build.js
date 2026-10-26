@@ -368,9 +368,9 @@ function build(){
         'for(var i=0;i<rs.length;i++){var r=rs[i];var ok=true;'+
           'if(yd&&r.getAttribute("data-ydl")!==yd)ok=false;'+
           'if(tm&&r.getAttribute("data-team")!==tm)ok=false;'+
-          'if(st.indexOf("not_")===0){var ln=st.slice(4);if(r.getAttribute("data-met")==="1"||r.getAttribute("data-ydl")!==ln)ok=false;}'+
+          'if(st.indexOf("not_")===0){var ln=st.slice(4);if(r.getAttribute("data-met")==="1"||r.getAttribute("data-ydl")!==ln||r.getAttribute("data-sched")!=="是")ok=false;}'+
           'else if(st==="met"&&r.getAttribute("data-met")!=="1")ok=false;'+
-          'else if(st==="not"&&r.getAttribute("data-met")==="1")ok=false;'+
+          'else if(st==="not"&&(r.getAttribute("data-met")==="1"||r.getAttribute("data-sched")!=="是"))ok=false;'+
           'if(nm&&(r.getAttribute("data-name")||"").toLowerCase().indexOf(nm)<0)ok=false;'+
           'if(ol&&r.getAttribute("data-online")!==ol)ok=false;'+
           'if(pb&&r.getAttribute("data-sched")!==pb)ok=false;'+
