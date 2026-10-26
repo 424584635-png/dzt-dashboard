@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>众包骑手监控看板 · 实时播报入口</title>
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body { font-family: -apple-system, "PingFang SC", "Microsoft YaHei", sans-serif;
+         background: #f5f6f8; min-height: 100vh; display: flex;
+         align-items: center; justify-content: center; padding: 24px; }
+  .wrap { max-width: 860px; width: 100%; }
+  h1 { font-size: 24px; color: #1f2329; margin-bottom: 6px; }
+  .sub { color: #8a919e; font-size: 13px; margin-bottom: 28px; }
+  .grid { display: grid; grid-template-columns: 1fr 1fr; gap: 18px; }
+  @media (max-width: 640px) { .grid { grid-template-columns: 1fr; } }
+  a.card { display: block; background: #fff; border-radius: 12px; padding: 26px 24px;
+           text-decoration: none; border: 1px solid #e5e6eb;
+           transition: box-shadow .2s, transform .2s; }
+  a.card:hover { box-shadow: 0 6px 20px rgba(31,35,41,.10); transform: translateY(-2px); }
+  .icon { font-size: 34px; margin-bottom: 12px; }
+  .name { font-size: 18px; font-weight: 600; color: #1f2329; margin-bottom: 6px; }
+  .desc { font-size: 13px; color: #646a73; line-height: 1.6; margin-bottom: 14px; }
+  .stamp { font-size: 12px; color: #f53f3f; background: #ffece8;
+           display: inline-block; padding: 3px 10px; border-radius: 4px; }
+  .foot { margin-top: 22px; font-size: 12px; color: #8a919e; text-align: center; }
+</style>
+</head>
+<body>
+<div class="rnav" id="rnav">
+  <a class="rnav-i" data-nav="id1" href="id1.html">📊 实时骑手监控</a>
+  <a class="rnav-i" data-nav="id2" href="id2.html">✅ 有效出勤监控</a>
+  <a class="rnav-i" data-nav="home" href="index.html">🏠 播报首页</a>
+</div>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div class="wrap">
+  <h1>🏍️ 众包骑手监控看板</h1>
+  <div class="sub">实时数据播报入口 · 数据来源于轩辕系统实时排班考勤监控</div>
+  <div class="grid">
+    <a class="card" href="id1.html">
+      <div class="icon">📊</div>
+      <div class="name">众包实时骑手监控</div>
+      <div class="desc">当前时段到岗监控：各时段排班/在线/达标状态、全天达成情况，支持筛选排序。</div>
+      <div class="stamp" id="s1">数据截至 --</div>
+    </a>
+    <a class="card" href="id2.html">
+      <div class="icon">✅</div>
+      <div class="name">有效出勤监控</div>
+      <div class="desc">有效出勤达标看板：在线 8 小时且完单达标，小队/运力线达成率汇总。</div>
+      <div class="stamp" id="s2">数据截至 --</div>
+    </a>
+  </div>
+  <div id="refresh-anchor"></div>
+  <div class="foot">本页面由定时任务每 5 分钟自动采集更新 · 如需帮助请联系运营支持</div>
+  <!--RF-WIDGET-START-->
+<div class="rnav" id="rnav">
+  <a class="rnav-i" data-nav="id1" href="id1.html">📊 实时骑手监控</a>
+  <a class="rnav-i" data-nav="id2" href="id2.html">✅ 有效出勤监控</a>
+  <a class="rnav-i" data-nav="home" href="index.html">🏠 播报首页</a>
+</div>
+<div id="rf-toast" role="status" aria-live="polite"></div>
+<style>
+#rf-toast{position:fixed;left:50%;top:20px;transform:translateX(-50%) translateY(-10px);z-index:2147483647;background:rgba(23,26,29,.92);color:#fff;font:500 13.5px/1.5 -apple-system,"PingFang SC","Microsoft YaHei",sans-serif;padding:11px 20px;border-radius:10px;box-shadow:0 6px 20px rgba(0,0,0,.28);opacity:0;pointer-events:none;transition:opacity .18s,transform .18s;max-width:86vw;text-align:center;}
+#rf-toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
+.rf-wrap{display:flex;flex-direction:column;align-items:center;gap:10px;margin:26px 0 4px;}
+.rf-btn{display:inline-flex;align-items:center;gap:8px;background:#165dff;color:#fff;border:0;border-radius:10px;padding:13px 30px;font:600 15px/1 -apple-system,"PingFang SC","Microsoft YaHei",sans-serif;cursor:pointer;box-shadow:0 6px 18px rgba(22,93,255,.3);transition:background .16s,transform .1s;}
+.rf-btn:hover{background:#4080ff;}
+.rf-btn:active{transform:scale(.97);}
+.rf-btn[disabled]{background:#a9bdf5;box-shadow:none;cursor:default;}
+.rf-btn .rf-ico{display:inline-block;}
+.rf-btn.spin .rf-ico{animation:rfspin .9s linear infinite;}
+@keyframes rfspin{to{transform:rotate(360deg);}}
+.rf-note{font-size:12px;color:#8a919e;text-align:center;line-height:1.6;}
+#rf-fab{position:fixed;right:20px;bottom:20px;z-index:2147483646;display:inline-flex;align-items:center;gap:6px;background:#165dff;color:#fff;border:0;border-radius:24px;padding:12px 20px;font:600 14px/1 -apple-system,"PingFang SC","Microsoft YaHei",sans-serif;cursor:pointer;box-shadow:0 6px 18px rgba(22,93,255,.4);user-select:none;}
+#rf-fab:active{transform:scale(.95);}
+#rf-fab[disabled]{background:#a9bdf5;}
+.rnav{position:sticky;top:0;z-index:60;display:flex;gap:6px;padding:9px 12px;background:rgba(255,255,255,.92);backdrop-filter:blur(8px);border-bottom:1px solid #e8eef7;overflow-x:auto;-webkit-overflow-scrolling:touch;}
+.rnav-i{flex:1 0 auto;text-align:center;white-space:nowrap;padding:9px 14px;border-radius:10px;font:600 13px/1 -apple-system,"PingFang SC","Microsoft YaHei",sans-serif;color:#5b6b83;text-decoration:none;background:#f1f5fb;transition:background .16s,color .16s;}
+.rnav-i:hover{background:#e3ecfb;color:#165dff;}
+.rnav-i.on{background:#165dff;color:#fff;box-shadow:0 4px 12px rgba(22,93,255,.28);}
+@media(max-width:680px){.rnav{padding:8px}.rnav-i{font-size:12.5px;padding:8px 12px;}}
+</style>
+<script>
+(function(){
+  var PAGE_STAMP = "2026-10-27 02:39";
+  var toast = document.getElementById('rf-toast');
+  var btn = null, lbl = null, ico = null, timer = null, busy = false;
+
+  function scQuery(){
+    var m = location.search.match(/[?&]sharecode=([^&]+)/);
+    return m ? 'sharecode=' + m[1] : '';
+  }
+  function withQ(path, extra){
+    var p = [scQuery(), extra].filter(function(x){ return x; }).join('&');
+    return path + (p ? '?' + p : '');
+  }
+  function dirPath(file){
+    return location.pathname.replace(/[^/]*$/, '') + file;
+  }
+  function showToast(msg, ms){
+    if (!toast) return;
+    toast.textContent = msg;
+    toast.classList.add('show');
+    clearTimeout(timer);
+    if (ms) timer = setTimeout(function(){ toast.classList.remove('show'); }, ms);
+  }
+  function hideToast(){ clearTimeout(timer); if (toast) toast.classList.remove('show'); }
+  function getStamp(){
+    return fetch(withQ(dirPath('stamp.json'), '_=' + Date.now()), {cache: 'no-store'})
+      .then(function(r){ return r.text(); })
+      .then(function(txt){
+        try { var j = JSON.parse(txt); return (j && j.id1) ? j.id1 : ''; } catch(e){ return ''; }
+      })
+      .catch(function(){ return ''; });
+  }
+  function baseStamp(){
+    if (PAGE_STAMP) return PAGE_STAMP;
+    try { return sessionStorage.getItem('__rfBase') || ''; } catch(e){ return ''; }
+  }
+  function hardReload(){
+    try { sessionStorage.setItem('__rfScroll', String(window.scrollY || 0)); } catch(e){}
+    location.replace(withQ(location.pathname, '_r=' + Date.now()));
+  }
+  function setBusy(b, text){
+    busy = b;
+    btn.disabled = b;
+    if (b) { btn.classList.add('spin'); lbl.textContent = text || '正在更新…'; }
+    else { btn.classList.remove('spin'); lbl.textContent = '立即刷新数据'; }
+  }
+  function poll(){
+    var t0 = Date.now(), base = baseStamp();
+    (function loop(){
+      getStamp().then(function(s){
+        if (s && base && s !== base) {
+          showToast('已获取最新数据 ' + s + '，正在加载…');
+          setTimeout(hardReload, 350);
+          return;
+        }
+        if (s && !base) {
+          var n = 0;
+          try { n = parseInt(sessionStorage.getItem('__rfReloads') || '0', 10) || 0; } catch(e){}
+          if (n < 2) {
+            try { sessionStorage.setItem('__rfReloads', String(n + 1)); } catch(e){}
+            showToast('已获取最新数据 ' + s + '，正在加载…');
+            setTimeout(hardReload, 350);
+          } else {
+            try { sessionStorage.setItem('__rfBase', s); } catch(e){}
+            setBusy(false);
+            showToast('当前已是最新数据（' + s + '）', 4200);
+          }
+          return;
+        }
+        if (Date.now() - t0 > 12000) {
+          setBusy(false);
+          showToast('已是最新数据' + (s ? '（' + s + '）' : '') + ' · 后台每 5 分钟自动采集，有新版本时本页会自动刷新', 5000);
+          return;
+        }
+        showToast('数据正在更新…');
+        setTimeout(loop, 2500);
+      });
+    })();
+  }
+  function onClick(){
+    if (busy) return;
+    setBusy(true);
+    manualRun();
+  }
+  var API = 'http://127.0.0.1:8899';
+  function manualRun(){
+    // 尝试触发本机服务运行一次真实播报（采集→生成→钉钉双推）。
+    // 浏览器 Private Network Access 可能拦截跨源 fetch：失败则降级为拉取最新发布快照。
+    showToast('正在尝试触发播报…');
+    fetch(API + '/run', { method: 'POST', mode: 'cors', cache: 'no-store',
+            headers: { 'Content-Type': 'application/json' } })
+      .then(function(r){ return r.json(); })
+      .then(function(j){
+        if (j && j.ok) {
+          showToast('✅ 已触发播报（钉钉已推送）· 看板稍后同步', 5000);
+          setTimeout(hardReload, 1200);
+        } else if (j && j.busy) {
+          setBusy(false);
+          showToast('上一轮播报进行中，请稍候再试', 4000);
+        } else {
+          showToast('已拉取最新数据', 3500);
+          setBusy(false);
+          hardReload();
+        }
+      })
+      .catch(function(){
+        showToast('本机服务未运行（保持 WorkBuddy 打开即可触发）· 已拉取最新数据', 4500);
+        setBusy(false);
+        hardReload();
+      });
+  }
+  function build(){
+    var anchor = document.getElementById('refresh-anchor');
+    if (anchor) {
+      var wrap = document.createElement('div');
+      wrap.className = 'rf-wrap';
+      btn = document.createElement('button');
+      btn.className = 'rf-btn';
+      btn.type = 'button';
+      ico = document.createElement('span'); ico.className = 'rf-ico'; ico.textContent = '🔄';
+      lbl = document.createElement('span'); lbl.textContent = '立即刷新数据';
+      btn.appendChild(ico); btn.appendChild(lbl);
+      wrap.appendChild(btn);
+      var note = document.createElement('div');
+      note.className = 'rf-note';
+      note.textContent = '后台每 5 分钟自动采集并更新 · 点击按钮立即拉取最新版本';
+      wrap.appendChild(note);
+      anchor.appendChild(wrap);
+    } else {
+      btn = document.createElement('button');
+      btn.id = 'rf-fab';
+      btn.type = 'button';
+      btn.title = '立即刷新数据';
+      ico = document.createElement('span'); ico.className = 'rf-ico'; ico.textContent = '🔄';
+      lbl = document.createElement('span'); lbl.textContent = '刷新';
+      btn.appendChild(ico); btn.appendChild(lbl);
+      document.body.appendChild(btn);
+    }
+    btn.addEventListener('click', onClick);
+  }
+  function fixLinks(){
+    // 站内相对链接补 sharecode + 版本号，点进看板页也不会命中旧缓存
+    var v = (PAGE_STAMP || '').replace(/[^0-9]/g, '');
+    var qs = [];
+    if (scQuery()) qs.push(scQuery());
+    if (v) qs.push('v=' + v);
+    if (!qs.length) return;
+    var links = document.querySelectorAll('a[href]:not(.rnav-i)');
+    for (var i = 0; i < links.length; i++) {
+      var a = links[i], href = a.getAttribute('href') || '';
+      if (!href || /^(https?:|#|mailto:|javascript:)/i.test(href)) continue;
+      if (/[?&]sharecode=/.test(href)) continue;
+      a.setAttribute('href', href + (href.indexOf('?') >= 0 ? '&' : '?') + qs.join('&'));
+    }
+  }
+  function syncStamps(){
+    if (!PAGE_STAMP) return;
+    try { sessionStorage.setItem('__rfBase', PAGE_STAMP); sessionStorage.setItem('__rfReloads', '0'); } catch(e){}
+    ['s1', 's2'].forEach(function(id){
+      var el = document.getElementById(id);
+      if (el) el.textContent = '数据截至 ' + PAGE_STAMP;
+    });
+  }
+  function restoreScroll(){
+    try {
+      var y = sessionStorage.getItem('__rfScroll');
+      if (y) { sessionStorage.removeItem('__rfScroll'); window.scrollTo(0, parseInt(y, 10) || 0); }
+    } catch(e){}
+  }
+  function autoCheck(){
+    // 静默巡检：服务端出现新版本才自动硬刷新，避免旧缓存页面一直停留
+    var base = baseStamp();
+    getStamp().then(function(s){
+      if (!s) return;
+      if (base && s === base) return;
+      var n = 0;
+      try { n = parseInt(sessionStorage.getItem('__rfReloads') || '0', 10) || 0; } catch(e){}
+      if (!base && n >= 2) { try { sessionStorage.setItem('__rfBase', s); } catch(e){} return; }
+      try { sessionStorage.setItem('__rfReloads', String(n + 1)); } catch(e){}
+      hardReload();
+    });
+  }
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else { init(); }
+  function buildNav(){
+    // 跨看板导航：按文件名高亮当前板；链接带上 sharecode，跳转不丢码
+    var nav = document.getElementById('rnav');
+    if (!nav) return;
+    var f = (location.pathname.split('/').pop() || '').split('?')[0];
+    var cur = f.indexOf('id1') >= 0 ? 'id1' : f.indexOf('id2') >= 0 ? 'id2'
+            : (f.indexOf('index') >= 0 || f === '') ? 'home' : '';
+    var items = nav.querySelectorAll('.rnav-i');
+    for (var i = 0; i < items.length; i++) {
+      var a = items[i], key = a.getAttribute('data-nav');
+      if (key === cur) a.className = 'rnav-i on';
+      if (scQuery()) a.setAttribute('href', a.getAttribute('href') + '?' + scQuery());
+    }
+  }
+  function init(){ buildNav(); build(); syncStamps(); fixLinks(); restoreScroll(); setTimeout(autoCheck, 3000); setInterval(autoCheck, 60000); }
+})();
+</script>
+<!--RF-WIDGET-END-->
+</div>
+</body>
+</html>
