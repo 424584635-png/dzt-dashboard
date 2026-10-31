@@ -1,10 +1,10 @@
 {
   "meta": {
     "date": "2026-11-01",
-    "now": "2026-11-01 01:55",
-    "activePeriod": "凌晨1",
+    "now": "2026-11-01 02:00",
+    "activePeriod": "凌晨2",
     "source": "scrape",
-    "generatedAt": "2026-11-01 01:55"
+    "generatedAt": "2026-11-01 02:00"
   },
   "riders": [
     {
@@ -116,7 +116,7 @@
       "dayOnlineMin": 93,
       "onlineH": 1.5,
       "orders": 6,
-      "periodOrders": 6,
+      "periodOrders": 0,
       "orderTarget": 20,
       "sprintTarget": 0,
       "deliveryOrders": 0
@@ -583,26 +583,26 @@
       "periods": [
         {
           "name": "凌晨1",
-          "onlineMin": 114,
-          "orders": 3,
+          "onlineMin": 119,
+          "orders": null,
           "maxOrders": 7,
-          "delivery": 1,
-          "ended": false
+          "delivery": 0,
+          "ended": true
         },
         {
           "name": "凌晨2",
           "onlineMin": 0,
-          "orders": null,
+          "orders": 0,
           "maxOrders": 7,
-          "delivery": 0,
+          "delivery": 1,
           "ended": false
         }
       ],
       "onlineStatus": "在线",
-      "dayOnlineMin": 114,
-      "onlineH": 1.9,
+      "dayOnlineMin": 119,
+      "onlineH": 2,
       "orders": 3,
-      "periodOrders": 3,
+      "periodOrders": 0,
       "orderTarget": 20,
       "sprintTarget": 0,
       "deliveryOrders": 1
@@ -624,18 +624,18 @@
       "periods": [
         {
           "name": "凌晨1",
-          "onlineMin": 115,
-          "orders": 6,
+          "onlineMin": 119,
+          "orders": null,
           "maxOrders": 15,
-          "delivery": 1,
-          "ended": false
+          "delivery": 0,
+          "ended": true
         },
         {
           "name": "凌晨2",
           "onlineMin": 0,
-          "orders": null,
+          "orders": 0,
           "maxOrders": 15,
-          "delivery": 0,
+          "delivery": 1,
           "ended": false
         },
         {
@@ -656,10 +656,10 @@
         }
       ],
       "onlineStatus": "在线",
-      "dayOnlineMin": 115,
-      "onlineH": 1.9,
+      "dayOnlineMin": 120,
+      "onlineH": 2,
       "orders": 6,
-      "periodOrders": 6,
+      "periodOrders": 0,
       "orderTarget": 20,
       "sprintTarget": 0,
       "deliveryOrders": 1
@@ -1666,63 +1666,6 @@
     {
       "ydl": "优选",
       "xiaodui": "思茅优选二队",
-      "name": "鲍国明",
-      "id": "1087319378",
-      "phone": "",
-      "isCaptain": "否",
-      "isNew": "否",
-      "schedule": [
-        "凌晨1",
-        "凌晨2",
-        "凌晨3",
-        "夜宵2"
-      ],
-      "periods": [
-        {
-          "name": "凌晨1",
-          "onlineMin": 108,
-          "orders": 8,
-          "maxOrders": 15,
-          "delivery": 0,
-          "ended": false
-        },
-        {
-          "name": "凌晨2",
-          "onlineMin": 0,
-          "orders": null,
-          "maxOrders": 15,
-          "delivery": 0,
-          "ended": false
-        },
-        {
-          "name": "凌晨3",
-          "onlineMin": 0,
-          "orders": null,
-          "maxOrders": 15,
-          "delivery": 0,
-          "ended": false
-        },
-        {
-          "name": "夜宵2",
-          "onlineMin": 0,
-          "orders": null,
-          "maxOrders": 15,
-          "delivery": 0,
-          "ended": false
-        }
-      ],
-      "onlineStatus": "离线",
-      "dayOnlineMin": 108,
-      "onlineH": 1.8,
-      "orders": 8,
-      "periodOrders": 8,
-      "orderTarget": 20,
-      "sprintTarget": 0,
-      "deliveryOrders": 0
-    },
-    {
-      "ydl": "优选",
-      "xiaodui": "思茅优选二队",
       "name": "鲍德斌",
       "id": "317794948",
       "phone": "",
@@ -1848,6 +1791,63 @@
       "dayOnlineMin": 0,
       "onlineH": 0,
       "orders": 0,
+      "periodOrders": 0,
+      "orderTarget": 20,
+      "sprintTarget": 0,
+      "deliveryOrders": 0
+    },
+    {
+      "ydl": "优选",
+      "xiaodui": "思茅优选二队",
+      "name": "鲍国明",
+      "id": "1087319378",
+      "phone": "",
+      "isCaptain": "否",
+      "isNew": "否",
+      "schedule": [
+        "凌晨1",
+        "凌晨2",
+        "凌晨3",
+        "夜宵2"
+      ],
+      "periods": [
+        {
+          "name": "凌晨1",
+          "onlineMin": 108,
+          "orders": null,
+          "maxOrders": 15,
+          "delivery": 0,
+          "ended": true
+        },
+        {
+          "name": "凌晨2",
+          "onlineMin": 0,
+          "orders": 0,
+          "maxOrders": 15,
+          "delivery": 0,
+          "ended": false
+        },
+        {
+          "name": "凌晨3",
+          "onlineMin": 0,
+          "orders": null,
+          "maxOrders": 15,
+          "delivery": 0,
+          "ended": false
+        },
+        {
+          "name": "夜宵2",
+          "onlineMin": 0,
+          "orders": null,
+          "maxOrders": 15,
+          "delivery": 0,
+          "ended": false
+        }
+      ],
+      "onlineStatus": "在线",
+      "dayOnlineMin": 108,
+      "onlineH": 1.8,
+      "orders": 8,
       "periodOrders": 0,
       "orderTarget": 20,
       "sprintTarget": 0,
@@ -2272,18 +2272,18 @@
       "periods": [
         {
           "name": "凌晨1",
-          "onlineMin": 114,
-          "orders": 6,
+          "onlineMin": 119,
+          "orders": null,
           "maxOrders": 15,
-          "delivery": 1,
-          "ended": false
+          "delivery": 0,
+          "ended": true
         },
         {
           "name": "凌晨2",
           "onlineMin": 0,
-          "orders": null,
+          "orders": 0,
           "maxOrders": 15,
-          "delivery": 0,
+          "delivery": 1,
           "ended": false
         },
         {
@@ -2304,10 +2304,10 @@
         }
       ],
       "onlineStatus": "在线",
-      "dayOnlineMin": 114,
-      "onlineH": 1.9,
+      "dayOnlineMin": 119,
+      "onlineH": 2,
       "orders": 6,
-      "periodOrders": 6,
+      "periodOrders": 0,
       "orderTarget": 20,
       "sprintTarget": 0,
       "deliveryOrders": 1
@@ -2329,16 +2329,16 @@
       "periods": [
         {
           "name": "凌晨1",
-          "onlineMin": 115,
-          "orders": 8,
+          "onlineMin": 120,
+          "orders": null,
           "maxOrders": 15,
-          "delivery": 1,
-          "ended": false
+          "delivery": 0,
+          "ended": true
         },
         {
           "name": "凌晨2",
           "onlineMin": 0,
-          "orders": null,
+          "orders": 0,
           "maxOrders": 15,
           "delivery": 0,
           "ended": false
@@ -2361,13 +2361,13 @@
         }
       ],
       "onlineStatus": "在线",
-      "dayOnlineMin": 115,
-      "onlineH": 1.9,
-      "orders": 8,
-      "periodOrders": 8,
+      "dayOnlineMin": 120,
+      "onlineH": 2,
+      "orders": 9,
+      "periodOrders": 0,
       "orderTarget": 20,
       "sprintTarget": 0,
-      "deliveryOrders": 1
+      "deliveryOrders": 0
     },
     {
       "ydl": "优选",
@@ -2386,16 +2386,16 @@
       "periods": [
         {
           "name": "凌晨1",
-          "onlineMin": 115,
-          "orders": 11,
+          "onlineMin": 120,
+          "orders": null,
           "maxOrders": 15,
           "delivery": 0,
-          "ended": false
+          "ended": true
         },
         {
           "name": "凌晨2",
           "onlineMin": 0,
-          "orders": null,
+          "orders": 0,
           "maxOrders": 15,
           "delivery": 0,
           "ended": false
@@ -2418,10 +2418,10 @@
         }
       ],
       "onlineStatus": "在线",
-      "dayOnlineMin": 115,
-      "onlineH": 1.9,
+      "dayOnlineMin": 120,
+      "onlineH": 2,
       "orders": 11,
-      "periodOrders": 11,
+      "periodOrders": 0,
       "orderTarget": 20,
       "sprintTarget": 0,
       "deliveryOrders": 0
@@ -3498,7 +3498,7 @@
       "dayOnlineMin": 49,
       "onlineH": 0.8,
       "orders": 6,
-      "periodOrders": 6,
+      "periodOrders": 0,
       "orderTarget": 20,
       "sprintTarget": 0,
       "deliveryOrders": 0
@@ -6458,7 +6458,7 @@
       "dayOnlineMin": 51,
       "onlineH": 0.9,
       "orders": 6,
-      "periodOrders": 6,
+      "periodOrders": 0,
       "orderTarget": 20,
       "sprintTarget": 0,
       "deliveryOrders": 0
@@ -9239,7 +9239,7 @@
       "dayOnlineMin": 46,
       "onlineH": 0.8,
       "orders": 3,
-      "periodOrders": 3,
+      "periodOrders": 0,
       "orderTarget": 20,
       "sprintTarget": 0,
       "deliveryOrders": 0
@@ -10985,7 +10985,7 @@
       "dayOnlineMin": 34,
       "onlineH": 0.6,
       "orders": 1,
-      "periodOrders": 1,
+      "periodOrders": 0,
       "orderTarget": 20,
       "sprintTarget": 0,
       "deliveryOrders": 0
@@ -12702,7 +12702,7 @@
       "dayOnlineMin": 47,
       "onlineH": 0.8,
       "orders": 2,
-      "periodOrders": 2,
+      "periodOrders": 0,
       "orderTarget": 20,
       "sprintTarget": 0,
       "deliveryOrders": 0
@@ -12750,7 +12750,7 @@
       "dayOnlineMin": 109,
       "onlineH": 1.8,
       "orders": 5,
-      "periodOrders": 5,
+      "periodOrders": 0,
       "orderTarget": 20,
       "sprintTarget": 0,
       "deliveryOrders": 0
@@ -102553,10 +102553,10 @@
     "2026-11-01": {
       "meta": {
         "date": "2026-11-01",
-        "now": "2026-11-01 01:55",
-        "activePeriod": "凌晨1",
+        "now": "2026-11-01 02:00",
+        "activePeriod": "凌晨2",
         "source": "scrape",
-        "generatedAt": "2026-11-01 01:55"
+        "generatedAt": "2026-11-01 02:00"
       },
       "riders": [
         {
@@ -102668,7 +102668,7 @@
           "dayOnlineMin": 93,
           "onlineH": 1.5,
           "orders": 6,
-          "periodOrders": 6,
+          "periodOrders": 0,
           "orderTarget": 20,
           "sprintTarget": 0,
           "deliveryOrders": 0
@@ -103135,26 +103135,26 @@
           "periods": [
             {
               "name": "凌晨1",
-              "onlineMin": 114,
-              "orders": 3,
+              "onlineMin": 119,
+              "orders": null,
               "maxOrders": 7,
-              "delivery": 1,
-              "ended": false
+              "delivery": 0,
+              "ended": true
             },
             {
               "name": "凌晨2",
               "onlineMin": 0,
-              "orders": null,
+              "orders": 0,
               "maxOrders": 7,
-              "delivery": 0,
+              "delivery": 1,
               "ended": false
             }
           ],
           "onlineStatus": "在线",
-          "dayOnlineMin": 114,
-          "onlineH": 1.9,
+          "dayOnlineMin": 119,
+          "onlineH": 2,
           "orders": 3,
-          "periodOrders": 3,
+          "periodOrders": 0,
           "orderTarget": 20,
           "sprintTarget": 0,
           "deliveryOrders": 1
@@ -103176,18 +103176,18 @@
           "periods": [
             {
               "name": "凌晨1",
-              "onlineMin": 115,
-              "orders": 6,
+              "onlineMin": 119,
+              "orders": null,
               "maxOrders": 15,
-              "delivery": 1,
-              "ended": false
+              "delivery": 0,
+              "ended": true
             },
             {
               "name": "凌晨2",
               "onlineMin": 0,
-              "orders": null,
+              "orders": 0,
               "maxOrders": 15,
-              "delivery": 0,
+              "delivery": 1,
               "ended": false
             },
             {
@@ -103208,10 +103208,10 @@
             }
           ],
           "onlineStatus": "在线",
-          "dayOnlineMin": 115,
-          "onlineH": 1.9,
+          "dayOnlineMin": 120,
+          "onlineH": 2,
           "orders": 6,
-          "periodOrders": 6,
+          "periodOrders": 0,
           "orderTarget": 20,
           "sprintTarget": 0,
           "deliveryOrders": 1
@@ -104218,63 +104218,6 @@
         {
           "ydl": "优选",
           "xiaodui": "思茅优选二队",
-          "name": "鲍国明",
-          "id": "1087319378",
-          "phone": "",
-          "isCaptain": "否",
-          "isNew": "否",
-          "schedule": [
-            "凌晨1",
-            "凌晨2",
-            "凌晨3",
-            "夜宵2"
-          ],
-          "periods": [
-            {
-              "name": "凌晨1",
-              "onlineMin": 108,
-              "orders": 8,
-              "maxOrders": 15,
-              "delivery": 0,
-              "ended": false
-            },
-            {
-              "name": "凌晨2",
-              "onlineMin": 0,
-              "orders": null,
-              "maxOrders": 15,
-              "delivery": 0,
-              "ended": false
-            },
-            {
-              "name": "凌晨3",
-              "onlineMin": 0,
-              "orders": null,
-              "maxOrders": 15,
-              "delivery": 0,
-              "ended": false
-            },
-            {
-              "name": "夜宵2",
-              "onlineMin": 0,
-              "orders": null,
-              "maxOrders": 15,
-              "delivery": 0,
-              "ended": false
-            }
-          ],
-          "onlineStatus": "离线",
-          "dayOnlineMin": 108,
-          "onlineH": 1.8,
-          "orders": 8,
-          "periodOrders": 8,
-          "orderTarget": 20,
-          "sprintTarget": 0,
-          "deliveryOrders": 0
-        },
-        {
-          "ydl": "优选",
-          "xiaodui": "思茅优选二队",
           "name": "鲍德斌",
           "id": "317794948",
           "phone": "",
@@ -104400,6 +104343,63 @@
           "dayOnlineMin": 0,
           "onlineH": 0,
           "orders": 0,
+          "periodOrders": 0,
+          "orderTarget": 20,
+          "sprintTarget": 0,
+          "deliveryOrders": 0
+        },
+        {
+          "ydl": "优选",
+          "xiaodui": "思茅优选二队",
+          "name": "鲍国明",
+          "id": "1087319378",
+          "phone": "",
+          "isCaptain": "否",
+          "isNew": "否",
+          "schedule": [
+            "凌晨1",
+            "凌晨2",
+            "凌晨3",
+            "夜宵2"
+          ],
+          "periods": [
+            {
+              "name": "凌晨1",
+              "onlineMin": 108,
+              "orders": null,
+              "maxOrders": 15,
+              "delivery": 0,
+              "ended": true
+            },
+            {
+              "name": "凌晨2",
+              "onlineMin": 0,
+              "orders": 0,
+              "maxOrders": 15,
+              "delivery": 0,
+              "ended": false
+            },
+            {
+              "name": "凌晨3",
+              "onlineMin": 0,
+              "orders": null,
+              "maxOrders": 15,
+              "delivery": 0,
+              "ended": false
+            },
+            {
+              "name": "夜宵2",
+              "onlineMin": 0,
+              "orders": null,
+              "maxOrders": 15,
+              "delivery": 0,
+              "ended": false
+            }
+          ],
+          "onlineStatus": "在线",
+          "dayOnlineMin": 108,
+          "onlineH": 1.8,
+          "orders": 8,
           "periodOrders": 0,
           "orderTarget": 20,
           "sprintTarget": 0,
@@ -104824,18 +104824,18 @@
           "periods": [
             {
               "name": "凌晨1",
-              "onlineMin": 114,
-              "orders": 6,
+              "onlineMin": 119,
+              "orders": null,
               "maxOrders": 15,
-              "delivery": 1,
-              "ended": false
+              "delivery": 0,
+              "ended": true
             },
             {
               "name": "凌晨2",
               "onlineMin": 0,
-              "orders": null,
+              "orders": 0,
               "maxOrders": 15,
-              "delivery": 0,
+              "delivery": 1,
               "ended": false
             },
             {
@@ -104856,10 +104856,10 @@
             }
           ],
           "onlineStatus": "在线",
-          "dayOnlineMin": 114,
-          "onlineH": 1.9,
+          "dayOnlineMin": 119,
+          "onlineH": 2,
           "orders": 6,
-          "periodOrders": 6,
+          "periodOrders": 0,
           "orderTarget": 20,
           "sprintTarget": 0,
           "deliveryOrders": 1
@@ -104881,16 +104881,16 @@
           "periods": [
             {
               "name": "凌晨1",
-              "onlineMin": 115,
-              "orders": 8,
+              "onlineMin": 120,
+              "orders": null,
               "maxOrders": 15,
-              "delivery": 1,
-              "ended": false
+              "delivery": 0,
+              "ended": true
             },
             {
               "name": "凌晨2",
               "onlineMin": 0,
-              "orders": null,
+              "orders": 0,
               "maxOrders": 15,
               "delivery": 0,
               "ended": false
@@ -104913,13 +104913,13 @@
             }
           ],
           "onlineStatus": "在线",
-          "dayOnlineMin": 115,
-          "onlineH": 1.9,
-          "orders": 8,
-          "periodOrders": 8,
+          "dayOnlineMin": 120,
+          "onlineH": 2,
+          "orders": 9,
+          "periodOrders": 0,
           "orderTarget": 20,
           "sprintTarget": 0,
-          "deliveryOrders": 1
+          "deliveryOrders": 0
         },
         {
           "ydl": "优选",
@@ -104938,16 +104938,16 @@
           "periods": [
             {
               "name": "凌晨1",
-              "onlineMin": 115,
-              "orders": 11,
+              "onlineMin": 120,
+              "orders": null,
               "maxOrders": 15,
               "delivery": 0,
-              "ended": false
+              "ended": true
             },
             {
               "name": "凌晨2",
               "onlineMin": 0,
-              "orders": null,
+              "orders": 0,
               "maxOrders": 15,
               "delivery": 0,
               "ended": false
@@ -104970,10 +104970,10 @@
             }
           ],
           "onlineStatus": "在线",
-          "dayOnlineMin": 115,
-          "onlineH": 1.9,
+          "dayOnlineMin": 120,
+          "onlineH": 2,
           "orders": 11,
-          "periodOrders": 11,
+          "periodOrders": 0,
           "orderTarget": 20,
           "sprintTarget": 0,
           "deliveryOrders": 0
@@ -106050,7 +106050,7 @@
           "dayOnlineMin": 49,
           "onlineH": 0.8,
           "orders": 6,
-          "periodOrders": 6,
+          "periodOrders": 0,
           "orderTarget": 20,
           "sprintTarget": 0,
           "deliveryOrders": 0
@@ -109010,7 +109010,7 @@
           "dayOnlineMin": 51,
           "onlineH": 0.9,
           "orders": 6,
-          "periodOrders": 6,
+          "periodOrders": 0,
           "orderTarget": 20,
           "sprintTarget": 0,
           "deliveryOrders": 0
@@ -111791,7 +111791,7 @@
           "dayOnlineMin": 46,
           "onlineH": 0.8,
           "orders": 3,
-          "periodOrders": 3,
+          "periodOrders": 0,
           "orderTarget": 20,
           "sprintTarget": 0,
           "deliveryOrders": 0
@@ -113537,7 +113537,7 @@
           "dayOnlineMin": 34,
           "onlineH": 0.6,
           "orders": 1,
-          "periodOrders": 1,
+          "periodOrders": 0,
           "orderTarget": 20,
           "sprintTarget": 0,
           "deliveryOrders": 0
@@ -115254,7 +115254,7 @@
           "dayOnlineMin": 47,
           "onlineH": 0.8,
           "orders": 2,
-          "periodOrders": 2,
+          "periodOrders": 0,
           "orderTarget": 20,
           "sprintTarget": 0,
           "deliveryOrders": 0
@@ -115302,7 +115302,7 @@
           "dayOnlineMin": 109,
           "onlineH": 1.8,
           "orders": 5,
-          "periodOrders": 5,
+          "periodOrders": 0,
           "orderTarget": 20,
           "sprintTarget": 0,
           "deliveryOrders": 0
