@@ -1,10 +1,10 @@
 {
   "meta": {
     "date": "2026-11-16",
-    "now": "2026-11-16 23:35",
+    "now": "2026-11-16 23:40",
     "activePeriod": "夜宵2",
     "source": "scrape",
-    "generatedAt": "2026-11-16 23:35"
+    "generatedAt": "2026-11-16 23:40"
   },
   "riders": [
     {
@@ -439,20 +439,20 @@
         {
           "name": "夜宵2",
           "onlineMin": 93,
-          "orders": 3,
+          "orders": 4,
           "maxOrders": 1,
-          "delivery": 1,
+          "delivery": 0,
           "ended": false
         }
       ],
       "onlineStatus": "离线",
       "dayOnlineMin": 609,
       "onlineH": 10.2,
-      "orders": 26,
-      "periodOrders": 3,
+      "orders": 27,
+      "periodOrders": 4,
       "orderTarget": 20,
       "sprintTarget": 0,
-      "deliveryOrders": 1
+      "deliveryOrders": 0
     },
     {
       "ydl": "优选",
@@ -522,10 +522,10 @@
         }
       ],
       "onlineStatus": "在线",
-      "dayOnlineMin": 651,
+      "dayOnlineMin": 656,
       "onlineH": 10.9,
-      "orders": 45,
-      "periodOrders": 8,
+      "orders": 46,
+      "periodOrders": 9,
       "orderTarget": 20,
       "sprintTarget": 0,
       "deliveryOrders": 1
@@ -579,8 +579,8 @@
         }
       ],
       "onlineStatus": "在线",
-      "dayOnlineMin": 800,
-      "onlineH": 13.3,
+      "dayOnlineMin": 805,
+      "onlineH": 13.4,
       "orders": 50,
       "periodOrders": 8,
       "orderTarget": 20,
@@ -1085,6 +1085,63 @@
     {
       "ydl": "优选",
       "xiaodui": "思茅优选二队",
+      "name": "王朝顺",
+      "id": "287127412",
+      "phone": "18387966005",
+      "isCaptain": "否",
+      "isNew": "否",
+      "schedule": [
+        "午高峰",
+        "下午茶1",
+        "晚高峰",
+        "夜宵1"
+      ],
+      "periods": [
+        {
+          "name": "午高峰",
+          "onlineMin": 179,
+          "orders": 11,
+          "maxOrders": 15,
+          "delivery": 0,
+          "ended": true
+        },
+        {
+          "name": "下午茶1",
+          "onlineMin": 120,
+          "orders": 9,
+          "maxOrders": 15,
+          "delivery": 0,
+          "ended": true
+        },
+        {
+          "name": "晚高峰",
+          "onlineMin": 150,
+          "orders": 7,
+          "maxOrders": 15,
+          "delivery": 0,
+          "ended": true
+        },
+        {
+          "name": "夜宵1",
+          "onlineMin": 120,
+          "orders": 8,
+          "maxOrders": 15,
+          "delivery": 0,
+          "ended": true
+        }
+      ],
+      "onlineStatus": "离线",
+      "dayOnlineMin": 788,
+      "onlineH": 13.1,
+      "orders": 46,
+      "periodOrders": 8,
+      "orderTarget": 20,
+      "sprintTarget": 0,
+      "deliveryOrders": 1
+    },
+    {
+      "ydl": "优选",
+      "xiaodui": "思茅优选二队",
       "name": "王武斌",
       "id": "300824396",
       "phone": "17787999804",
@@ -1181,20 +1238,20 @@
         {
           "name": "夜宵2",
           "onlineMin": 92,
-          "orders": 2,
+          "orders": 3,
           "maxOrders": 15,
-          "delivery": 2,
+          "delivery": 1,
           "ended": false
         }
       ],
       "onlineStatus": "离线",
       "dayOnlineMin": 530,
       "onlineH": 8.8,
-      "orders": 23,
-      "periodOrders": 2,
+      "orders": 24,
+      "periodOrders": 3,
       "orderTarget": 20,
       "sprintTarget": 0,
-      "deliveryOrders": 2
+      "deliveryOrders": 1
     },
     {
       "ydl": "优选",
@@ -1423,63 +1480,6 @@
       "orderTarget": 20,
       "sprintTarget": 0,
       "deliveryOrders": 0
-    },
-    {
-      "ydl": "优选",
-      "xiaodui": "思茅优选二队",
-      "name": "王朝顺",
-      "id": "287127412",
-      "phone": "18387966005",
-      "isCaptain": "否",
-      "isNew": "否",
-      "schedule": [
-        "午高峰",
-        "下午茶1",
-        "晚高峰",
-        "夜宵1"
-      ],
-      "periods": [
-        {
-          "name": "午高峰",
-          "onlineMin": 179,
-          "orders": 11,
-          "maxOrders": 15,
-          "delivery": 0,
-          "ended": true
-        },
-        {
-          "name": "下午茶1",
-          "onlineMin": 120,
-          "orders": 9,
-          "maxOrders": 15,
-          "delivery": 0,
-          "ended": true
-        },
-        {
-          "name": "晚高峰",
-          "onlineMin": 150,
-          "orders": 7,
-          "maxOrders": 15,
-          "delivery": 0,
-          "ended": true
-        },
-        {
-          "name": "夜宵1",
-          "onlineMin": 120,
-          "orders": 8,
-          "maxOrders": 15,
-          "delivery": 0,
-          "ended": true
-        }
-      ],
-      "onlineStatus": "在线",
-      "dayOnlineMin": 784,
-      "onlineH": 13.1,
-      "orders": 45,
-      "periodOrders": 7,
-      "orderTarget": 20,
-      "sprintTarget": 0,
-      "deliveryOrders": 2
     },
     {
       "ydl": "优选",
@@ -1841,20 +1841,77 @@
         {
           "name": "夜宵2",
           "onlineMin": 94,
-          "orders": 3,
+          "orders": 4,
           "maxOrders": 15,
-          "delivery": 1,
+          "delivery": 0,
           "ended": false
         }
       ],
       "onlineStatus": "离线",
       "dayOnlineMin": 607,
       "onlineH": 10.1,
-      "orders": 34,
-      "periodOrders": 3,
+      "orders": 35,
+      "periodOrders": 4,
       "orderTarget": 20,
       "sprintTarget": 0,
-      "deliveryOrders": 1
+      "deliveryOrders": 0
+    },
+    {
+      "ydl": "优选",
+      "xiaodui": "思茅优选三队",
+      "name": "杨金彪",
+      "id": "1042297692",
+      "phone": "13187932061",
+      "isCaptain": "否",
+      "isNew": "否",
+      "schedule": [
+        "午高峰",
+        "晚高峰",
+        "夜宵1",
+        "夜宵2"
+      ],
+      "periods": [
+        {
+          "name": "午高峰",
+          "onlineMin": 174,
+          "orders": 13,
+          "maxOrders": 7,
+          "delivery": 0,
+          "ended": true
+        },
+        {
+          "name": "晚高峰",
+          "onlineMin": 140,
+          "orders": 7,
+          "maxOrders": 7,
+          "delivery": 0,
+          "ended": true
+        },
+        {
+          "name": "夜宵1",
+          "onlineMin": 120,
+          "orders": 5,
+          "maxOrders": 7,
+          "delivery": 0,
+          "ended": true
+        },
+        {
+          "name": "夜宵2",
+          "onlineMin": 100,
+          "orders": 8,
+          "maxOrders": 7,
+          "delivery": 0,
+          "ended": false
+        }
+      ],
+      "onlineStatus": "在线",
+      "dayOnlineMin": 621,
+      "onlineH": 10.3,
+      "orders": 38,
+      "periodOrders": 8,
+      "orderTarget": 20,
+      "sprintTarget": 0,
+      "deliveryOrders": 0
     },
     {
       "ydl": "优选",
@@ -1904,71 +1961,14 @@
           "ended": true
         }
       ],
-      "onlineStatus": "离线",
-      "dayOnlineMin": 668,
-      "onlineH": 11.1,
+      "onlineStatus": "在线",
+      "dayOnlineMin": 671,
+      "onlineH": 11.2,
       "orders": 43,
       "periodOrders": 5,
       "orderTarget": 20,
       "sprintTarget": 0,
-      "deliveryOrders": 0
-    },
-    {
-      "ydl": "优选",
-      "xiaodui": "思茅优选三队",
-      "name": "杨金彪",
-      "id": "1042297692",
-      "phone": "13187932061",
-      "isCaptain": "否",
-      "isNew": "否",
-      "schedule": [
-        "午高峰",
-        "晚高峰",
-        "夜宵1",
-        "夜宵2"
-      ],
-      "periods": [
-        {
-          "name": "午高峰",
-          "onlineMin": 174,
-          "orders": 13,
-          "maxOrders": 7,
-          "delivery": 0,
-          "ended": true
-        },
-        {
-          "name": "晚高峰",
-          "onlineMin": 140,
-          "orders": 7,
-          "maxOrders": 7,
-          "delivery": 0,
-          "ended": true
-        },
-        {
-          "name": "夜宵1",
-          "onlineMin": 120,
-          "orders": 5,
-          "maxOrders": 7,
-          "delivery": 0,
-          "ended": true
-        },
-        {
-          "name": "夜宵2",
-          "onlineMin": 95,
-          "orders": 8,
-          "maxOrders": 7,
-          "delivery": 0,
-          "ended": false
-        }
-      ],
-      "onlineStatus": "在线",
-      "dayOnlineMin": 616,
-      "onlineH": 10.3,
-      "orders": 38,
-      "periodOrders": 8,
-      "orderTarget": 20,
-      "sprintTarget": 0,
-      "deliveryOrders": 0
+      "deliveryOrders": 1
     },
     {
       "ydl": "蜂跑",
@@ -2402,8 +2402,8 @@
         }
       ],
       "onlineStatus": "在线",
-      "dayOnlineMin": 542,
-      "onlineH": 9,
+      "dayOnlineMin": 547,
+      "onlineH": 9.1,
       "orders": 41,
       "periodOrders": 0,
       "orderTarget": 20,
@@ -2958,13 +2958,13 @@
         }
       ],
       "onlineStatus": "在线",
-      "dayOnlineMin": 540,
-      "onlineH": 9,
-      "orders": 57,
-      "periodOrders": 12,
+      "dayOnlineMin": 545,
+      "onlineH": 9.1,
+      "orders": 58,
+      "periodOrders": 13,
       "orderTarget": 20,
       "sprintTarget": 0,
-      "deliveryOrders": 6
+      "deliveryOrders": 5
     },
     {
       "ydl": "蜂跑",
@@ -3006,13 +3006,13 @@
         }
       ],
       "onlineStatus": "在线",
-      "dayOnlineMin": 480,
-      "onlineH": 8,
-      "orders": 59,
-      "periodOrders": 8,
+      "dayOnlineMin": 485,
+      "onlineH": 8.1,
+      "orders": 61,
+      "periodOrders": 10,
       "orderTarget": 20,
       "sprintTarget": 0,
-      "deliveryOrders": 2
+      "deliveryOrders": 0
     },
     {
       "ydl": "蜂跑",
@@ -4937,8 +4937,8 @@
         }
       ],
       "onlineStatus": "在线",
-      "dayOnlineMin": 494,
-      "onlineH": 8.2,
+      "dayOnlineMin": 499,
+      "onlineH": 8.3,
       "orders": 55,
       "periodOrders": 9,
       "orderTarget": 20,
@@ -8003,7 +8003,7 @@
         }
       ],
       "onlineStatus": "在线",
-      "dayOnlineMin": 652,
+      "dayOnlineMin": 657,
       "onlineH": 10.9,
       "orders": 23,
       "periodOrders": 0,
@@ -8613,8 +8613,8 @@
         }
       ],
       "onlineStatus": "在线",
-      "dayOnlineMin": 486,
-      "onlineH": 8.1,
+      "dayOnlineMin": 491,
+      "onlineH": 8.2,
       "orders": 26,
       "periodOrders": 0,
       "orderTarget": 20,
@@ -8670,7 +8670,7 @@
         }
       ],
       "onlineStatus": "在线",
-      "dayOnlineMin": 801,
+      "dayOnlineMin": 806,
       "onlineH": 13.4,
       "orders": 34,
       "periodOrders": 2,
@@ -9817,7 +9817,7 @@
         },
         {
           "name": "夜宵2",
-          "onlineMin": 89,
+          "onlineMin": 94,
           "orders": 2,
           "maxOrders": 15,
           "delivery": 0,
@@ -9825,8 +9825,8 @@
         }
       ],
       "onlineStatus": "在线",
-      "dayOnlineMin": 504,
-      "onlineH": 8.4,
+      "dayOnlineMin": 509,
+      "onlineH": 8.5,
       "orders": 23,
       "periodOrders": 2,
       "orderTarget": 20,
@@ -9873,8 +9873,8 @@
         }
       ],
       "onlineStatus": "在线",
-      "dayOnlineMin": 756,
-      "onlineH": 12.6,
+      "dayOnlineMin": 761,
+      "onlineH": 12.7,
       "orders": 25,
       "periodOrders": 0,
       "orderTarget": 20,
@@ -271784,10 +271784,10 @@
     "2026-11-16": {
       "meta": {
         "date": "2026-11-16",
-        "now": "2026-11-16 23:35",
+        "now": "2026-11-16 23:40",
         "activePeriod": "夜宵2",
         "source": "scrape",
-        "generatedAt": "2026-11-16 23:35"
+        "generatedAt": "2026-11-16 23:40"
       },
       "riders": [
         {
@@ -272222,20 +272222,20 @@
             {
               "name": "夜宵2",
               "onlineMin": 93,
-              "orders": 3,
+              "orders": 4,
               "maxOrders": 1,
-              "delivery": 1,
+              "delivery": 0,
               "ended": false
             }
           ],
           "onlineStatus": "离线",
           "dayOnlineMin": 609,
           "onlineH": 10.2,
-          "orders": 26,
-          "periodOrders": 3,
+          "orders": 27,
+          "periodOrders": 4,
           "orderTarget": 20,
           "sprintTarget": 0,
-          "deliveryOrders": 1
+          "deliveryOrders": 0
         },
         {
           "ydl": "优选",
@@ -272305,10 +272305,10 @@
             }
           ],
           "onlineStatus": "在线",
-          "dayOnlineMin": 651,
+          "dayOnlineMin": 656,
           "onlineH": 10.9,
-          "orders": 45,
-          "periodOrders": 8,
+          "orders": 46,
+          "periodOrders": 9,
           "orderTarget": 20,
           "sprintTarget": 0,
           "deliveryOrders": 1
@@ -272362,8 +272362,8 @@
             }
           ],
           "onlineStatus": "在线",
-          "dayOnlineMin": 800,
-          "onlineH": 13.3,
+          "dayOnlineMin": 805,
+          "onlineH": 13.4,
           "orders": 50,
           "periodOrders": 8,
           "orderTarget": 20,
@@ -272868,6 +272868,63 @@
         {
           "ydl": "优选",
           "xiaodui": "思茅优选二队",
+          "name": "王朝顺",
+          "id": "287127412",
+          "phone": "18387966005",
+          "isCaptain": "否",
+          "isNew": "否",
+          "schedule": [
+            "午高峰",
+            "下午茶1",
+            "晚高峰",
+            "夜宵1"
+          ],
+          "periods": [
+            {
+              "name": "午高峰",
+              "onlineMin": 179,
+              "orders": null,
+              "maxOrders": 15,
+              "delivery": 0,
+              "ended": true
+            },
+            {
+              "name": "下午茶1",
+              "onlineMin": 120,
+              "orders": null,
+              "maxOrders": 15,
+              "delivery": 0,
+              "ended": true
+            },
+            {
+              "name": "晚高峰",
+              "onlineMin": 150,
+              "orders": null,
+              "maxOrders": 15,
+              "delivery": 0,
+              "ended": true
+            },
+            {
+              "name": "夜宵1",
+              "onlineMin": 120,
+              "orders": null,
+              "maxOrders": 15,
+              "delivery": 0,
+              "ended": true
+            }
+          ],
+          "onlineStatus": "离线",
+          "dayOnlineMin": 788,
+          "onlineH": 13.1,
+          "orders": 46,
+          "periodOrders": 8,
+          "orderTarget": 20,
+          "sprintTarget": 0,
+          "deliveryOrders": 1
+        },
+        {
+          "ydl": "优选",
+          "xiaodui": "思茅优选二队",
           "name": "王武斌",
           "id": "300824396",
           "phone": "17787999804",
@@ -272964,20 +273021,20 @@
             {
               "name": "夜宵2",
               "onlineMin": 92,
-              "orders": 2,
+              "orders": 3,
               "maxOrders": 15,
-              "delivery": 2,
+              "delivery": 1,
               "ended": false
             }
           ],
           "onlineStatus": "离线",
           "dayOnlineMin": 530,
           "onlineH": 8.8,
-          "orders": 23,
-          "periodOrders": 2,
+          "orders": 24,
+          "periodOrders": 3,
           "orderTarget": 20,
           "sprintTarget": 0,
-          "deliveryOrders": 2
+          "deliveryOrders": 1
         },
         {
           "ydl": "优选",
@@ -273206,63 +273263,6 @@
           "orderTarget": 20,
           "sprintTarget": 0,
           "deliveryOrders": 0
-        },
-        {
-          "ydl": "优选",
-          "xiaodui": "思茅优选二队",
-          "name": "王朝顺",
-          "id": "287127412",
-          "phone": "18387966005",
-          "isCaptain": "否",
-          "isNew": "否",
-          "schedule": [
-            "午高峰",
-            "下午茶1",
-            "晚高峰",
-            "夜宵1"
-          ],
-          "periods": [
-            {
-              "name": "午高峰",
-              "onlineMin": 179,
-              "orders": null,
-              "maxOrders": 15,
-              "delivery": 0,
-              "ended": true
-            },
-            {
-              "name": "下午茶1",
-              "onlineMin": 120,
-              "orders": null,
-              "maxOrders": 15,
-              "delivery": 0,
-              "ended": true
-            },
-            {
-              "name": "晚高峰",
-              "onlineMin": 150,
-              "orders": null,
-              "maxOrders": 15,
-              "delivery": 0,
-              "ended": true
-            },
-            {
-              "name": "夜宵1",
-              "onlineMin": 120,
-              "orders": null,
-              "maxOrders": 15,
-              "delivery": 0,
-              "ended": true
-            }
-          ],
-          "onlineStatus": "在线",
-          "dayOnlineMin": 784,
-          "onlineH": 13.1,
-          "orders": 45,
-          "periodOrders": 7,
-          "orderTarget": 20,
-          "sprintTarget": 0,
-          "deliveryOrders": 2
         },
         {
           "ydl": "优选",
@@ -273624,20 +273624,77 @@
             {
               "name": "夜宵2",
               "onlineMin": 94,
-              "orders": 3,
+              "orders": 4,
               "maxOrders": 15,
-              "delivery": 1,
+              "delivery": 0,
               "ended": false
             }
           ],
           "onlineStatus": "离线",
           "dayOnlineMin": 607,
           "onlineH": 10.1,
-          "orders": 34,
-          "periodOrders": 3,
+          "orders": 35,
+          "periodOrders": 4,
           "orderTarget": 20,
           "sprintTarget": 0,
-          "deliveryOrders": 1
+          "deliveryOrders": 0
+        },
+        {
+          "ydl": "优选",
+          "xiaodui": "思茅优选三队",
+          "name": "杨金彪",
+          "id": "1042297692",
+          "phone": "13187932061",
+          "isCaptain": "否",
+          "isNew": "否",
+          "schedule": [
+            "午高峰",
+            "晚高峰",
+            "夜宵1",
+            "夜宵2"
+          ],
+          "periods": [
+            {
+              "name": "午高峰",
+              "onlineMin": 174,
+              "orders": null,
+              "maxOrders": 7,
+              "delivery": 0,
+              "ended": true
+            },
+            {
+              "name": "晚高峰",
+              "onlineMin": 140,
+              "orders": null,
+              "maxOrders": 7,
+              "delivery": 0,
+              "ended": true
+            },
+            {
+              "name": "夜宵1",
+              "onlineMin": 120,
+              "orders": null,
+              "maxOrders": 7,
+              "delivery": 0,
+              "ended": true
+            },
+            {
+              "name": "夜宵2",
+              "onlineMin": 100,
+              "orders": 8,
+              "maxOrders": 7,
+              "delivery": 0,
+              "ended": false
+            }
+          ],
+          "onlineStatus": "在线",
+          "dayOnlineMin": 621,
+          "onlineH": 10.3,
+          "orders": 38,
+          "periodOrders": 8,
+          "orderTarget": 20,
+          "sprintTarget": 0,
+          "deliveryOrders": 0
         },
         {
           "ydl": "优选",
@@ -273687,71 +273744,14 @@
               "ended": true
             }
           ],
-          "onlineStatus": "离线",
-          "dayOnlineMin": 668,
-          "onlineH": 11.1,
+          "onlineStatus": "在线",
+          "dayOnlineMin": 671,
+          "onlineH": 11.2,
           "orders": 43,
           "periodOrders": 5,
           "orderTarget": 20,
           "sprintTarget": 0,
-          "deliveryOrders": 0
-        },
-        {
-          "ydl": "优选",
-          "xiaodui": "思茅优选三队",
-          "name": "杨金彪",
-          "id": "1042297692",
-          "phone": "13187932061",
-          "isCaptain": "否",
-          "isNew": "否",
-          "schedule": [
-            "午高峰",
-            "晚高峰",
-            "夜宵1",
-            "夜宵2"
-          ],
-          "periods": [
-            {
-              "name": "午高峰",
-              "onlineMin": 174,
-              "orders": null,
-              "maxOrders": 7,
-              "delivery": 0,
-              "ended": true
-            },
-            {
-              "name": "晚高峰",
-              "onlineMin": 140,
-              "orders": null,
-              "maxOrders": 7,
-              "delivery": 0,
-              "ended": true
-            },
-            {
-              "name": "夜宵1",
-              "onlineMin": 120,
-              "orders": null,
-              "maxOrders": 7,
-              "delivery": 0,
-              "ended": true
-            },
-            {
-              "name": "夜宵2",
-              "onlineMin": 95,
-              "orders": 8,
-              "maxOrders": 7,
-              "delivery": 0,
-              "ended": false
-            }
-          ],
-          "onlineStatus": "在线",
-          "dayOnlineMin": 616,
-          "onlineH": 10.3,
-          "orders": 38,
-          "periodOrders": 8,
-          "orderTarget": 20,
-          "sprintTarget": 0,
-          "deliveryOrders": 0
+          "deliveryOrders": 1
         },
         {
           "ydl": "蜂跑",
@@ -274185,8 +274185,8 @@
             }
           ],
           "onlineStatus": "在线",
-          "dayOnlineMin": 542,
-          "onlineH": 9,
+          "dayOnlineMin": 547,
+          "onlineH": 9.1,
           "orders": 41,
           "periodOrders": 0,
           "orderTarget": 20,
@@ -274741,13 +274741,13 @@
             }
           ],
           "onlineStatus": "在线",
-          "dayOnlineMin": 540,
-          "onlineH": 9,
-          "orders": 57,
-          "periodOrders": 12,
+          "dayOnlineMin": 545,
+          "onlineH": 9.1,
+          "orders": 58,
+          "periodOrders": 13,
           "orderTarget": 20,
           "sprintTarget": 0,
-          "deliveryOrders": 6
+          "deliveryOrders": 5
         },
         {
           "ydl": "蜂跑",
@@ -274789,13 +274789,13 @@
             }
           ],
           "onlineStatus": "在线",
-          "dayOnlineMin": 480,
-          "onlineH": 8,
-          "orders": 59,
-          "periodOrders": 8,
+          "dayOnlineMin": 485,
+          "onlineH": 8.1,
+          "orders": 61,
+          "periodOrders": 10,
           "orderTarget": 20,
           "sprintTarget": 0,
-          "deliveryOrders": 2
+          "deliveryOrders": 0
         },
         {
           "ydl": "蜂跑",
@@ -276720,8 +276720,8 @@
             }
           ],
           "onlineStatus": "在线",
-          "dayOnlineMin": 494,
-          "onlineH": 8.2,
+          "dayOnlineMin": 499,
+          "onlineH": 8.3,
           "orders": 55,
           "periodOrders": 9,
           "orderTarget": 20,
@@ -279786,7 +279786,7 @@
             }
           ],
           "onlineStatus": "在线",
-          "dayOnlineMin": 652,
+          "dayOnlineMin": 657,
           "onlineH": 10.9,
           "orders": 23,
           "periodOrders": 0,
@@ -280396,8 +280396,8 @@
             }
           ],
           "onlineStatus": "在线",
-          "dayOnlineMin": 486,
-          "onlineH": 8.1,
+          "dayOnlineMin": 491,
+          "onlineH": 8.2,
           "orders": 26,
           "periodOrders": 0,
           "orderTarget": 20,
@@ -280453,7 +280453,7 @@
             }
           ],
           "onlineStatus": "在线",
-          "dayOnlineMin": 801,
+          "dayOnlineMin": 806,
           "onlineH": 13.4,
           "orders": 34,
           "periodOrders": 2,
@@ -281600,7 +281600,7 @@
             },
             {
               "name": "夜宵2",
-              "onlineMin": 89,
+              "onlineMin": 94,
               "orders": 2,
               "maxOrders": 15,
               "delivery": 0,
@@ -281608,8 +281608,8 @@
             }
           ],
           "onlineStatus": "在线",
-          "dayOnlineMin": 504,
-          "onlineH": 8.4,
+          "dayOnlineMin": 509,
+          "onlineH": 8.5,
           "orders": 23,
           "periodOrders": 2,
           "orderTarget": 20,
@@ -281656,8 +281656,8 @@
             }
           ],
           "onlineStatus": "在线",
-          "dayOnlineMin": 756,
-          "onlineH": 12.6,
+          "dayOnlineMin": 761,
+          "onlineH": 12.7,
           "orders": 25,
           "periodOrders": 0,
           "orderTarget": 20,
