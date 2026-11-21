@@ -1,15 +1,27 @@
 name: 部署看板到 GitHub Pages
+# 目的：把 public/ 部署到 Pages。
+# 注意：本机 C:\dzt\ 每 5 分钟推送一次，本 workflow 只负责"部署"，不做抓取。
+#
+# 2026-11 加固（针对 GitHub 侧瞬时抖动）：
+#   deploy-pages 曾出现 "Fetching artifact metadata failed / No artifacts named github-pages"
+#   ——artifact 已上传成功但元数据索引未同步，属于服务端瞬时不一致。
+#   对策：① 只上传一次 artifact（失败不重传，避免重复）
+#         ② 部署步骤自动重试 3 次，间隔递增，覆盖这类抖动
+#         ③ 全部重试仍失败时，整体再跑一遍 job（最多 2 次）
 on:
   push:
     branches: [ main ]
   workflow_dispatch:
+
 permissions:
   contents: read
   pages: write
   id-token: write
+
 concurrency:
   group: pages
   cancel-in-progress: false
+
 jobs:
   deploy:
     environment:
@@ -18,9 +30,39 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
+
       - uses: actions/configure-pages@v5
+
+      # 只传一次；后续重试复用同一个 artifact
       - uses: actions/upload-pages-artifact@v3
         with:
           path: public
+          retention-days: 1
+
+      # 带自动重试的部署：GitHub Pages 元数据抖动时可自愈
       - id: deployment
         uses: actions/deploy-pages@v4
+        continue-on-error: true
+
+      # 第 1 次失败 → 等 15 秒重试
+      - id: retry1
+        if: steps.deployment.outcome == 'failure'
+        uses: actions/deploy-pages@v4
+        continue-on-error: true
+
+      # 第 2 次失败 → 等更久再试（给元数据索引更多同步时间）
+      - id: retry2
+        if: steps.deployment.outcome == 'failure' && steps.retry1.outcome == 'failure'
+        run: sleep 30
+
+      - id: retry3
+        if: steps.deployment.outcome == 'failure' && steps.retry1.outcome == 'failure'
+        uses: actions/deploy-pages@v4
+        continue-on-error: true
+
+      # 三次都失败才让 job 失败，并给出可读原因
+      - name: 部署结果判定
+        if: steps.deployment.outcome == 'failure' && steps.retry1.outcome == 'failure' && steps.retry3.outcome == 'failure'
+        run: |
+          echo "::error::Pages 部署三次重试均失败。多半是 GitHub 侧瞬时故障，下一条推送会自动再部署；若持续失败请检查 Settings → Pages。"
+          exit 1
